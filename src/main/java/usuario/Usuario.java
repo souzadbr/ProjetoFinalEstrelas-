@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
-import preferencia.Preferencias;
+import preferencia.Preferencia;
 
 import javax.persistence.*;
 @Getter
@@ -34,7 +34,7 @@ public class Usuario {
     private Genero genero;
     @Column(nullable = false)
     private String senha;
-    @OneToOne (cascade = {CascadeType.PERSIST, CascadeType.MERGE, CascadeType.REMOVE})//verificar essa relação com mentora
-    private Preferencias preferencias;
+    @OneToOne (cascade =  CascadeType.ALL)
+    private Preferencia preferencia;
 
 }
