@@ -1,5 +1,6 @@
 package usuario;
 
+import enums.Estado;
 import enums.Genero;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -29,6 +30,9 @@ public class Usuario {
     private int idade;
     @Column(nullable = false, unique = true)
     private String telefone;
+    @Column(nullable = false)
+    @Enumerated (EnumType.STRING)
+    private Estado estado;
     @Column(nullable = false)
     @Enumerated (EnumType.STRING)
     private Genero genero;
