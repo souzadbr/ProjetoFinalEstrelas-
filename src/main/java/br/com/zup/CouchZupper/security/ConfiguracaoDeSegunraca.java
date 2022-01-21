@@ -1,4 +1,4 @@
-package config.security;
+package br.com.zup.CouchZupper.security;
 
 public class ConfiguracaoDeSegunraca {
 }

@@ -1,6 +1,6 @@
-package preferencia;
+package br.com.zup.CouchZupper.preferencia;
 
-import enums.TipoDePet;
+import br.com.zup.CouchZupper.enums.TipoDePet;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

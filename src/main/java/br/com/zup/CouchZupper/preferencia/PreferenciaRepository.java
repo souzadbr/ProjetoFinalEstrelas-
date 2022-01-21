@@ -1,4 +1,4 @@
-package preferencia;
+package br.com.zup.CouchZupper.preferencia;
 
 import org.springframework.data.repository.CrudRepository;
 

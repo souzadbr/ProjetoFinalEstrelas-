@@ -1,4 +1,4 @@
-package usuario;
+package br.com.zup.CouchZupper.usuario;
 
 import org.springframework.data.repository.CrudRepository;
 

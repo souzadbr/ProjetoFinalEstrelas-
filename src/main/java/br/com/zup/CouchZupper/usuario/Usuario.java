@@ -1,13 +1,13 @@
-package usuario;
+package br.com.zup.CouchZupper.usuario;
 
-import enums.Estado;
-import enums.Genero;
+import br.com.zup.CouchZupper.enums.Estado;
+import br.com.zup.CouchZupper.enums.Genero;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
-import preferencia.Preferencia;
+import br.com.zup.CouchZupper.preferencia.Preferencia;
 
 import javax.persistence.*;
 @Getter

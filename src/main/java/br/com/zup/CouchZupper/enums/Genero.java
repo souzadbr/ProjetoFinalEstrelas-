@@ -1,4 +1,4 @@
-package enums;
+package br.com.zup.CouchZupper.enums;
 
 public enum Genero {
     MASCULINO,
