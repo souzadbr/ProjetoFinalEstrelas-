@@ -1,10 +1,14 @@
 package br.com.zup.CouchZupper.security;
 
+import br.com.zup.CouchZupper.security.JWT.FiltroDeAutenticacaoJWT;
+import br.com.zup.CouchZupper.security.JWT.FiltroDeAutorizacaoJWT;
 import br.com.zup.CouchZupper.security.JWT.JWTComponent;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -19,6 +23,7 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 public class ConfiguracaoDeSeguranca extends WebSecurityConfigurerAdapter {
     @Autowired
     private JWTComponent jwtComponent;
+    @Autowired
     private UserDetailsService userDetailsService;
 
     private static final String[] ENDPOINT_POST_PUBLICO = {
@@ -29,10 +34,12 @@ public class ConfiguracaoDeSeguranca extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.csrf().disable();
         httpSecurity.cors().configurationSource(configurarCORS());
+
         httpSecurity.authorizeHttpRequests()
                 .antMatchers(HttpMethod.POST, ENDPOINT_POST_PUBLICO).permitAll()
                 .anyRequest().authenticated();
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+
     }
 
     @Bean
@@ -45,4 +52,5 @@ public class ConfiguracaoDeSeguranca extends WebSecurityConfigurerAdapter {
         corsConfigurationSource.registerCorsConfiguration("/**", configuration);
         return corsConfigurationSource;
     }
+
 }
