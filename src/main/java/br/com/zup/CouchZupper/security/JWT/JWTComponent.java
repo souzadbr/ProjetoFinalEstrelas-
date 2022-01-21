@@ -1,5 +1,6 @@
 package br.com.zup.CouchZupper.security.JWT;
 
+import br.com.zup.CouchZupper.exception.TokenInvalidoException;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
 
@@ -22,4 +23,14 @@ public class JWTComponent {
 
         return token;
     }
+
+    public Claims pegarClaims(String token){
+        try{
+            Claims claims = Jwts.parser().setSigningKey(segredo.getBytes()).parseClaimsJws(token).getBody();
+            return claims;
+        }catch (Exception e){
+            throw new TokenInvalidoException();
+        }
+    }
+
 }
