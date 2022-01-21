@@ -2,7 +2,7 @@ package br.com.zup.CouchZupper.enums;
 
 public enum Genero {
     MASCULINO,
-    FEMINIMO,
+    FEMININO,
     NAO_BINARIO,
     OUTRO
 }
