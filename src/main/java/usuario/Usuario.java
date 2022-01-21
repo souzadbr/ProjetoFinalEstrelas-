@@ -1,5 +1,6 @@
 package usuario;
 
+import enums.Genero;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
@@ -21,6 +22,7 @@ public class Usuario {
     @Column(nullable = false, unique = true)
     private String telefone;
     @Column(nullable = false)
+    @Enumerated (EnumType.STRING)
     private Genero genero;
     @Column(nullable = false)
     private String senha;
