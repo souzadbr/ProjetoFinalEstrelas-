@@ -13,7 +13,7 @@ import javax.persistence.*;
 @AllArgsConstructor
 @NoArgsConstructor
 @Entity
-@Table(name = "preferencia")
+@Table(name = "preferencias")
 public class Preferencia {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
