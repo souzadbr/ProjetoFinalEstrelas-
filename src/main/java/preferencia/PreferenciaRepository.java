@@ -1,0 +1,6 @@
+package preferencia;
+
+import org.springframework.data.repository.CrudRepository;
+
+public interface PreferenciaRepository extends CrudRepository <Preferencia, Integer> {
+}
