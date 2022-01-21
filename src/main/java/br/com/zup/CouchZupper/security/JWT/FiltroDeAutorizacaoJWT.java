@@ -1,6 +1,7 @@
 package br.com.zup.CouchZupper.security.JWT;
 
 import br.com.zup.CouchZupper.exception.TokenInvalidoException;
+import io.jsonwebtoken.Claims;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
