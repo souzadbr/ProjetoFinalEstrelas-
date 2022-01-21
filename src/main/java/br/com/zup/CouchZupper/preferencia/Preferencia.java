@@ -1,5 +1,6 @@
 package br.com.zup.CouchZupper.preferencia;
 
+
 import br.com.zup.CouchZupper.enums.TipoDePet;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -19,8 +20,9 @@ public class Preferencia {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
     @Column(nullable = false)
-    private boolean TemPet;
+    private boolean temPet;
     @Column(nullable = false)
+    @Enumerated(EnumType.STRING)
     private TipoDePet tipoDePet;
     @Column(nullable = false)
     private boolean fumante;

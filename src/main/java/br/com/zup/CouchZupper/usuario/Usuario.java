@@ -22,10 +22,10 @@ public class Usuario {
     @GeneratedValue(generator = "system-uuid")
     @GenericGenerator(name = "system-uuid", strategy = "uuid")
     private String id;
-    @Column(nullable = false, unique = true)
-    private String email;
     @Column(nullable = false)
     private String nome;
+    @Column(nullable = false, unique = true)
+    private String email;
     @Column(nullable = false)
     private int idade;
     @Column(nullable = false, unique = true)
