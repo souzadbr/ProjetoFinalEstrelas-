@@ -40,6 +40,9 @@ public class ConfiguracaoDeSeguranca extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
+        httpSecurity.addFilter(new FiltroDeAutenticacaoJWT(jwtComponent, authenticationManager()));
+        httpSecurity.addFilter(new FiltroDeAutorizacaoJWT(authenticationManager(), jwtComponent, userDetailsService));
+
     }
 
     @Bean
