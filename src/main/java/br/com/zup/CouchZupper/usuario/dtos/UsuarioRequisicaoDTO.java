@@ -34,7 +34,5 @@ public class UsuarioRequisicaoDTO {
     private Genero genero;
     @Size(min = 6, message = "{validacao.senha.size}")
     private String senha;
-    @Valid
-    @NotNull(message = "{validacao.preferencia.not-null}")
     private Preferencia preferencia;
 }
