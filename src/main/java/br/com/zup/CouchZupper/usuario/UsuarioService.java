@@ -3,6 +3,7 @@ package br.com.zup.CouchZupper.usuario;
 import br.com.zup.CouchZupper.enums.Estado;
 import br.com.zup.CouchZupper.exception.EmailJaCadastradoException;
 import br.com.zup.CouchZupper.exception.TelefoneJaCadastradoException;
+import br.com.zup.CouchZupper.exception.UsuarioNaoLocalizadoException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -45,5 +46,13 @@ public class UsuarioService {
         }
 
         return listarUsuarios();
+    }
+    public Usuario buscarUsuarioPorId(String id){
+        for (Usuario usuarioReferencia : usuarioRepository.findAll()){
+            if (id.equals(usuarioReferencia.getId())){
+                return usuarioReferencia;
+            }
+        }
+        throw new UsuarioNaoLocalizadoException();
     }
 }
