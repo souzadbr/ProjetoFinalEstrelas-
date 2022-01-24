@@ -77,6 +77,208 @@ public class UsuarioControllerTest {
                 .andExpect(MockMvcResultMatchers.status().is(422));
     }
 
+    @Test
+    @WithMockUser ("user@user.com")
+    public void testeRotaParaCadastrarUsuarioValidacaoNomeBlank()throws Exception{
+        Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        usuario.setNome(" ");
+        String json = objectMapper.writeValueAsString(usuario);
 
+        ResultActions respostaDaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(MockMvcResultMatchers.status().is(422));
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void testeRotaParaCadastrarUsuarioValidacaoNomeSize()throws Exception{
+        Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        usuario.setNome("E");
+        String json = objectMapper.writeValueAsString(usuario);
+
+        ResultActions respostaDaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(MockMvcResultMatchers.status().is(422));
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void testeRotaParaCadastrarUsuarioValidacaoIdadeMinima()throws Exception{
+        Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        usuario.setIdade(12);
+        String json = objectMapper.writeValueAsString(usuario);
+
+        ResultActions respostaDaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(MockMvcResultMatchers.status().is(422));
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void testeRotaParaCadastrarUsuarioValidacaoEmailValido()throws Exception{
+        Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        usuario.setEmail("deborasouza");
+        String json = objectMapper.writeValueAsString(usuario);
+
+        ResultActions respostaDaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(MockMvcResultMatchers.status().is(422));
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void testeRotaParaCadastrarUsuarioValidacaoEmailEmBranco()throws Exception{
+        Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        usuario.setEmail("  ");
+        String json = objectMapper.writeValueAsString(usuario);
+
+        ResultActions respostaDaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(MockMvcResultMatchers.status().is(422));
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void testeRotaParaCadastrarUsuarioValidacaoEmailNull()throws Exception{
+        Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        usuario.setEmail(null);
+        String json = objectMapper.writeValueAsString(usuario);
+
+        ResultActions respostaDaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(MockMvcResultMatchers.status().is(422));
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void testeRotaParaCadastrarUsuarioValidacaoTelefoneNull()throws Exception{
+        Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        usuario.setTelefone(null);
+        String json = objectMapper.writeValueAsString(usuario);
+
+        ResultActions respostaDaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(MockMvcResultMatchers.status().is(422));
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void testeRotaParaCadastrarUsuarioValidacaoTelefoneBlank()throws Exception{
+        Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        usuario.setTelefone("  ");
+        String json = objectMapper.writeValueAsString(usuario);
+
+        ResultActions respostaDaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(MockMvcResultMatchers.status().is(422));
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void testeRotaParaCadastrarUsuarioValidacaoGeneroNull()throws Exception{
+        Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        usuario.setGenero(null);
+        String json = objectMapper.writeValueAsString(usuario);
+
+        ResultActions respostaDaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(MockMvcResultMatchers.status().is(422));
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void testeRotaParaCadastrarUsuarioValidacaoEstadoNull()throws Exception{
+        Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        usuario.setEstado(null);
+        String json = objectMapper.writeValueAsString(usuario);
+
+        ResultActions respostaDaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(MockMvcResultMatchers.status().is(422));
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void testeRotaParaCadastrarUsuarioValidacaoSenhaSize()throws Exception{
+        Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        usuario.setSenha("E");
+        String json = objectMapper.writeValueAsString(usuario);
+
+        ResultActions respostaDaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(MockMvcResultMatchers.status().is(422));
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void testarRotaParaCadastrarGeneroValid()throws Exception{
+        Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        String json = objectMapper.writeValueAsString(usuario);
+        json = json.replace("FEMININO","TESTE");
+
+        ResultActions resultado = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
+                        .content(json).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().is(422));
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void testarRotaParaCadastrarGeneroBlank()throws Exception{
+        Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        String json = objectMapper.writeValueAsString(usuario);
+        json = json.replace("FEMININO"," ");
+
+        ResultActions resultado = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
+                        .content(json).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().is(422));
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void testarRotaParaCadastrarEstadoValid()throws Exception{
+        Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        String json = objectMapper.writeValueAsString(usuario);
+        json = json.replace("ACRE","TESTE");
+
+        ResultActions resultado = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
+                        .content(json).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().is(422));
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void testarRotaParaCadastrarEstadoEmBracno()throws Exception{
+        Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        String json = objectMapper.writeValueAsString(usuario);
+        json = json.replace("ACRE"," ");
+
+        ResultActions resultado = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
+                        .content(json).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().is(422));
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void testarRotaParaCadastrarPetValido()throws Exception{
+        Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        String json = objectMapper.writeValueAsString(usuario);
+        json = json.replace("GATO","TESTE");
+
+        ResultActions resultado = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
+                        .content(json).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().is(422));
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void testarRotaParaCadastrarPetEmBranco()throws Exception{
+        Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        String json = objectMapper.writeValueAsString(usuario);
+        json = json.replace("GATO"," ");
+
+        ResultActions resultado = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
+                        .content(json).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().is(422));
+    }
 
 }
