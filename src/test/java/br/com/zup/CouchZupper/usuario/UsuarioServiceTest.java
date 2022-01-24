@@ -14,6 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.Iterator;
+import java.util.List;
+
 @SpringBootTest
 public class UsuarioServiceTest {
     @MockBean
@@ -96,5 +99,13 @@ public class UsuarioServiceTest {
         usuarioService.verificarTelefoneExistente(Mockito.anyString());
         Mockito.verify(usuarioRepository, Mockito.times(1))
                 .existsByTelefone(Mockito.anyString());
+    }
+
+    @Test
+    public void testarAtualizarDados(){
+        Mockito.when(usuarioRepository.save(Mockito.any(Usuario.class))).thenReturn(usuario);
+        usuarioService.atualizarDadosUsuario(usuario);
+
+        Mockito.verify(usuarioRepository, Mockito.times(1)).save(Mockito.any(Usuario.class));
     }
 }
