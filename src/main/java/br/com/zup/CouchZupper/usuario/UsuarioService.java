@@ -47,6 +47,7 @@ public class UsuarioService {
 
         return listarUsuarios();
     }
+
     public Usuario buscarUsuarioPorId(String id){
         for (Usuario usuarioReferencia : usuarioRepository.findAll()){
             if (id.equals(usuarioReferencia.getId())){
@@ -54,5 +55,13 @@ public class UsuarioService {
             }
         }
         throw new UsuarioNaoLocalizadoException();
+    }
+
+    public void deletarUsuario (String id){
+        if (!usuarioRepository.existsById(id)){
+            throw new UsuarioNaoLocalizadoException();
+        } else {
+            usuarioRepository.deleteById(id);
+        }
     }
 }

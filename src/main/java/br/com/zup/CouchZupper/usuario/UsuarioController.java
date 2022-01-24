@@ -6,6 +6,7 @@ import br.com.zup.CouchZupper.usuario.dtos.UsuarioRequisicaoDTO;
 import br.com.zup.CouchZupper.usuario.dtos.UsuarioRespostaDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -40,5 +41,11 @@ public class UsuarioController {
     public UsuarioRespostaDTO exibirUsuarioPorId(@PathVariable String id){
         UsuarioRespostaDTO usuarioRespostaDTO = modelMapper.map(usuarioService.buscarUsuarioPorId(id), UsuarioRespostaDTO.class);
         return usuarioRespostaDTO;
+    }
+
+    @DeleteMapping("/{id}")
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void deletarUsuario(@PathVariable String id){
+        usuarioService.deletarUsuario(id);
     }
 }
