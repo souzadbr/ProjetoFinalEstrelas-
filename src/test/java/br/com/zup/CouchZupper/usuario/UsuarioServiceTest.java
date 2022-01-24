@@ -108,4 +108,13 @@ public class UsuarioServiceTest {
 
         Mockito.verify(usuarioRepository, Mockito.times(1)).save(Mockito.any(Usuario.class));
     }
+
+    @Test
+    public void testarDeletarUsuarioCaminhoPositivo(){
+        Mockito.when(usuarioRepository.existsById(Mockito.anyString())).thenReturn(true);
+        Mockito.doNothing().when(usuarioRepository).deleteById(Mockito.anyString());
+        usuarioService.deletarUsuario(Mockito.anyString());
+
+        Mockito.verify(usuarioRepository, Mockito.times(1)).deleteById(Mockito.anyString());
+    }
 }
