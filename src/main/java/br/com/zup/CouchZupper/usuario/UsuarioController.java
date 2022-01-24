@@ -3,6 +3,7 @@ package br.com.zup.CouchZupper.usuario;
 import br.com.zup.CouchZupper.enums.Estado;
 import br.com.zup.CouchZupper.usuario.dtos.ResumoCadastroDTO;
 import br.com.zup.CouchZupper.usuario.dtos.UsuarioRequisicaoDTO;
+import br.com.zup.CouchZupper.usuario.dtos.UsuarioRespostaDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -34,5 +35,10 @@ public class UsuarioController {
             listaResumo.add(resumo);
         }
         return listaResumo;
+    }
+    @GetMapping("/{id}")
+    public UsuarioRespostaDTO exibirUsuarioPorId(@PathVariable String id){
+        UsuarioRespostaDTO usuarioRespostaDTO = modelMapper.map(usuarioService.buscarUsuarioPorId(id), UsuarioRespostaDTO.class);
+        return usuarioRespostaDTO;
     }
 }
