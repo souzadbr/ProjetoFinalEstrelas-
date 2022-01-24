@@ -129,7 +129,7 @@ public class UsuarioControllerTest {
     @WithMockUser ("user@user.com")
     public void testeRotaParaCadastrarUsuarioValidacaoGeneroNull()throws Exception{
         Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
-        usuario.setGenero("");
+        usuario.setGenero(null);
         String json = objectMapper.writeValueAsString(usuario);
 
         ResultActions respostaDaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
