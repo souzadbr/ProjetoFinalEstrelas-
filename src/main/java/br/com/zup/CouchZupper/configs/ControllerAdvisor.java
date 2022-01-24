@@ -1,9 +1,6 @@
 package br.com.zup.CouchZupper.configs;
 
-import br.com.zup.CouchZupper.exception.AcessoNegadoException;
-import br.com.zup.CouchZupper.exception.EmailJaCadastradoException;
-import br.com.zup.CouchZupper.exception.TelefoneJaCadastradoException;
-import br.com.zup.CouchZupper.exception.TokenInvalidoException;
+import br.com.zup.CouchZupper.exception.*;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
@@ -59,4 +56,9 @@ public class ControllerAdvisor {
         return new MensagemDeErro(exception.getLocalizedMessage());
     }
 
+    @ExceptionHandler(UsuarioNaoLocalizadoException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public MensagemDeErro manipularUsuarioNaoLocalizado(UsuarioNaoLocalizadoException exception){
+        return new MensagemDeErro(exception.getLocalizedMessage());
+    }
 }
