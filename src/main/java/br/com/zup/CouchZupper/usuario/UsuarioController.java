@@ -1,12 +1,14 @@
 package br.com.zup.CouchZupper.usuario;
 
+import br.com.zup.CouchZupper.enums.Estado;
+import br.com.zup.CouchZupper.usuario.dtos.ResumoCadastroDTO;
 import br.com.zup.CouchZupper.usuario.dtos.UsuarioRequisicaoDTO;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.ArrayList;
+import java.util.List;
 
 @RestController
 @RequestMapping("usuario")
@@ -24,4 +26,13 @@ public class UsuarioController {
         usuarioService.salvarUsuario(usuario);
     }
 
+    @GetMapping
+    public List<ResumoCadastroDTO> buscarUsuarios(@RequestParam(required = false) Estado estado){
+        List<ResumoCadastroDTO> listaResumo = new ArrayList<>();
+        for (Usuario usuario: usuarioService.buscarUsuarios(estado)){
+            ResumoCadastroDTO resumo = modelMapper.map(usuario, ResumoCadastroDTO.class);
+            listaResumo.add(resumo);
+        }
+        return listaResumo;
+    }
 }
