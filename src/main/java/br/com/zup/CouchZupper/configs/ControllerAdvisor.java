@@ -25,4 +25,10 @@ public class ControllerAdvisor {
         return erros;
     }
 
+    @ExceptionHandler(HttpMessageNotReadableException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public MensagemDeErro manipularEnum(HttpMessageNotReadableException exception) {
+        return new MensagemDeErro("Possuí erros de escrita.");
+    }
+
 }
