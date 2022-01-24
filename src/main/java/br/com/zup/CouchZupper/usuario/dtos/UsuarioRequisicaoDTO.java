@@ -8,15 +8,30 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.Valid;
+import javax.validation.constraints.*;
+
 @Getter @Setter
 @NoArgsConstructor @AllArgsConstructor
 public class UsuarioRequisicaoDTO {
+    @Email(message = "{validacao.email.email}")
+    @NotNull(message = "{validacao.email.not-null}")
     private String email;
+    @Size(min=2, max=50, message = "{validacao.nome.size}")
+    @NotNull(message = "{validacao.nome.not-null}")
+    @NotBlank(message = "{validacao.nome.not-blank}")
     private String nome;
+    @DecimalMin(value = "18",message = "{validacao.idade.decimal-min}")
     private int idade;
     private String telefone;
+    @Valid
     private Estado estado;
+    @Valid
+    @NotNull(message = "{validacao.genero.not-null}")
     private Genero genero;
+    @Size(min = 6, message = "{validacao.senha.size}")
     private String senha;
+    @Valid
+    @NotNull(message = "{validacao.preferencia.not-null}")
     private Preferencia preferencia;
 }
