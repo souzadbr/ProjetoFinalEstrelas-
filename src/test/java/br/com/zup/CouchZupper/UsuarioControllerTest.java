@@ -139,6 +139,18 @@ public class UsuarioControllerTest {
 
     @Test
     @WithMockUser ("user@user.com")
+    public void testeRotaParaCadastrarUsuarioValidacaoEmailNull()throws Exception{
+        Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        usuario.setEmail(null);
+        String json = objectMapper.writeValueAsString(usuario);
+
+        ResultActions respostaDaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(MockMvcResultMatchers.status().is(422));
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
     public void testeRotaParaCadastrarUsuarioValidacaoTelefoneNull()throws Exception{
         Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
         usuario.setTelefone(null);
@@ -151,9 +163,33 @@ public class UsuarioControllerTest {
 
     @Test
     @WithMockUser ("user@user.com")
+    public void testeRotaParaCadastrarUsuarioValidacaoTelefoneBlank()throws Exception{
+        Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        usuario.setTelefone("  ");
+        String json = objectMapper.writeValueAsString(usuario);
+
+        ResultActions respostaDaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(MockMvcResultMatchers.status().is(422));
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
     public void testeRotaParaCadastrarUsuarioValidacaoGeneroNull()throws Exception{
         Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
         usuario.setGenero(null);
+        String json = objectMapper.writeValueAsString(usuario);
+
+        ResultActions respostaDaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(MockMvcResultMatchers.status().is(422));
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void testeRotaParaCadastrarUsuarioValidacaoEstadoNull()throws Exception{
+        Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        usuario.setEstado(null);
         String json = objectMapper.writeValueAsString(usuario);
 
         ResultActions respostaDaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
