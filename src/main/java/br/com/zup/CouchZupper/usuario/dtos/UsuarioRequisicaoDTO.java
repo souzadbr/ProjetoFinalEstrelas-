@@ -23,8 +23,11 @@ public class UsuarioRequisicaoDTO {
     private String nome;
     @DecimalMin(value = "18",message = "{validacao.idade.decimal-min}")
     private int idade;
+    @NotNull(message = "{validacao.telefone.not-null}")
+    @NotBlank(message = "{validacao.telefone.not-blank}")
     private String telefone;
     @Valid
+    @NotNull(message = "{validacao.estado.not-null}")
     private Estado estado;
     @Valid
     @NotNull(message = "{validacao.genero.not-null}")
