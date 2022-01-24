@@ -3,6 +3,7 @@ package br.com.zup.CouchZupper.configs;
 import br.com.zup.CouchZupper.exception.AcessoNegadoException;
 import br.com.zup.CouchZupper.exception.EmailJaCadastradoException;
 import br.com.zup.CouchZupper.exception.TelefoneJaCadastradoException;
+import br.com.zup.CouchZupper.exception.TokenInvalidoException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.FieldError;
@@ -42,15 +43,20 @@ public class ControllerAdvisor {
 
     @ExceptionHandler(EmailJaCadastradoException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    public MensagemDeErro manipularEmailsJaCadastrados(EmailJaCadastradoException exception){
+    public MensagemDeErro manipularEmailsJaCadastrados(EmailJaCadastradoException exception) {
         return new MensagemDeErro(exception.getLocalizedMessage());
     }
+
     @ExceptionHandler(TelefoneJaCadastradoException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    public MensagemDeErro manipularTelefoneJaCadastrados(TelefoneJaCadastradoException exception){
+    public MensagemDeErro manipularTelefoneJaCadastrados(TelefoneJaCadastradoException exception) {
+        return new MensagemDeErro(exception.getLocalizedMessage());
+    }
+
+    @ExceptionHandler(TokenInvalidoException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public MensagemDeErro manipularTokenInvalido(TokenInvalidoException exception) {
         return new MensagemDeErro(exception.getLocalizedMessage());
     }
 
 }
-
-
