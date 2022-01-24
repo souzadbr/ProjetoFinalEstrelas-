@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -24,7 +25,7 @@ public class UsuarioController {
     private ModelMapper modelMapper;
 
     @PostMapping
-    public void cadastrarUsuario(@RequestBody UsuarioRequisicaoDTO usuarioRequisicaoDTO){
+    public void cadastrarUsuario(@RequestBody @Valid UsuarioRequisicaoDTO usuarioRequisicaoDTO){
         Usuario usuario = modelMapper.map(usuarioRequisicaoDTO, Usuario.class);
         usuarioService.salvarUsuario(usuario);
     }
