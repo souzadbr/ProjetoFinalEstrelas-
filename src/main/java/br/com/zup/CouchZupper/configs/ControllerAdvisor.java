@@ -18,9 +18,9 @@ public class ControllerAdvisor {
 
     @ExceptionHandler(MethodArgumentNotValidException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    public List<ErroDeValidacao> manipularErrosValidacao(MethodArgumentNotValidException exception){
-        List<ErroDeValidacao>erros=new ArrayList<>();
-        for (FieldError fielError: exception.getFieldErrors()) {
+    public List<ErroDeValidacao> manipularErrosValidacao(MethodArgumentNotValidException exception) {
+        List<ErroDeValidacao> erros = new ArrayList<>();
+        for (FieldError fielError : exception.getFieldErrors()) {
             ErroDeValidacao erroDeValidacao = new ErroDeValidacao(fielError.getField(), fielError.getDefaultMessage());
             erros.add(erroDeValidacao);
         }
@@ -35,8 +35,15 @@ public class ControllerAdvisor {
 
     @ExceptionHandler(AcessoNegadoException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
-    public MensagemDeErro manipularErrosDeAcessoNegado (AcessoNegadoException exception) {
+    public MensagemDeErro manipularErrosDeAcessoNegado(AcessoNegadoException exception) {
         return new MensagemDeErro(exception.getLocalizedMessage());
     }
+
+    @ExceptionHandler(EmailJaCadastradoException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public MensagemDeErro manipularEmailsJaCadastrados(EmailJaCadastradoException exception){
+        return new MensagemDeErro(exception.getLocalizedMessage());
+    }
+}
 
 
