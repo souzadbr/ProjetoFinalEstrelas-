@@ -83,4 +83,13 @@ public class UsuarioServiceTest {
 
         Mockito.verify(usuarioRepository, Mockito.times(0)).save(Mockito.any(Usuario.class));
     }
+
+    @Test
+    public void testarVerificarEmailExistente(){
+        usuarioService.verificarEmailExistente(Mockito.anyString());
+        Mockito.verify(usuarioRepository, Mockito.times(1))
+                .existsByEmail(Mockito.anyString());
+    }
+
+
 }
