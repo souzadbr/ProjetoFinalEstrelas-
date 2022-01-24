@@ -91,5 +91,10 @@ public class UsuarioServiceTest {
                 .existsByEmail(Mockito.anyString());
     }
 
-
+    @Test
+    public void testarVerificarTelefoneExistente(){
+        usuarioService.verificarTelefoneExistente(Mockito.anyString());
+        Mockito.verify(usuarioRepository, Mockito.times(1))
+                .existsByTelefone(Mockito.anyString());
+    }
 }
