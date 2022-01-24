@@ -4,6 +4,7 @@ import br.com.zup.CouchZupper.enums.Estado;
 import br.com.zup.CouchZupper.enums.Genero;
 import br.com.zup.CouchZupper.enums.TipoDePet;
 import br.com.zup.CouchZupper.exception.EmailJaCadastradoException;
+import br.com.zup.CouchZupper.exception.TelefoneJaCadastradoException;
 import br.com.zup.CouchZupper.preferencia.Preferencia;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -64,6 +65,19 @@ public class UsuarioServiceTest {
         Mockito.when(usuarioService.verificarTelefoneExistente(Mockito.anyString())).thenReturn(false);
 
         EmailJaCadastradoException exception = Assertions.assertThrows(EmailJaCadastradoException.class, () -> {
+            usuarioService.salvarUsuario(usuario);
+        });
+
+        Mockito.verify(usuarioRepository, Mockito.times(0)).save(Mockito.any(Usuario.class));
+    }
+
+    @Test
+    public void testarSalvarUsuarioTelefoneExistente(){
+        Mockito.when(usuarioRepository.save(Mockito.any(Usuario.class))).thenReturn(usuario);
+        Mockito.when(usuarioService.verificarEmailExistente(Mockito.anyString())).thenReturn(false);
+        Mockito.when(usuarioService.verificarTelefoneExistente(Mockito.anyString())).thenReturn(true);
+
+        TelefoneJaCadastradoException exception = Assertions.assertThrows(TelefoneJaCadastradoException.class, () -> {
             usuarioService.salvarUsuario(usuario);
         });
 
