@@ -5,6 +5,7 @@ import br.com.zup.CouchZupper.enums.Genero;
 import br.com.zup.CouchZupper.enums.TipoDePet;
 import br.com.zup.CouchZupper.exception.EmailJaCadastradoException;
 import br.com.zup.CouchZupper.exception.TelefoneJaCadastradoException;
+import br.com.zup.CouchZupper.exception.UsuarioNaoLocalizadoException;
 import br.com.zup.CouchZupper.preferencia.Preferencia;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -112,9 +113,19 @@ public class UsuarioServiceTest {
     @Test
     public void testarDeletarUsuarioCaminhoPositivo(){
         Mockito.when(usuarioRepository.existsById(Mockito.anyString())).thenReturn(true);
-        Mockito.doNothing().when(usuarioRepository).deleteById(Mockito.anyString());
-        usuarioService.deletarUsuario(Mockito.anyString());
+        usuarioService.deletarUsuario("000aaa");
 
         Mockito.verify(usuarioRepository, Mockito.times(1)).deleteById(Mockito.anyString());
+    }
+
+    @Test
+    public void testarDeletarUsuarioCaminhoNegativo(){
+        Mockito.when(usuarioRepository.existsById(Mockito.anyString())).thenReturn(false);
+        Mockito.doNothing().when(usuarioRepository).deleteById(Mockito.anyString());
+
+        UsuarioNaoLocalizadoException exception = Assertions.assertThrows(UsuarioNaoLocalizadoException.class, () -> {
+           usuarioService.deletarUsuario("teste");
+        });
+
     }
 }
