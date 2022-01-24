@@ -57,6 +57,10 @@ public class UsuarioService {
         throw new UsuarioNaoLocalizadoException();
     }
 
+    public Usuario atualizarDadosUsuario (Usuario usuario){
+        return usuarioRepository.save(usuario);
+    }
+
     public void deletarUsuario (String id){
         if (!usuarioRepository.existsById(id)){
             throw new UsuarioNaoLocalizadoException();
