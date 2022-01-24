@@ -28,7 +28,7 @@ public class Preferencia {
     private boolean fumante;
     @Column(nullable = false)
     private boolean disponivelParaReceberUmZupper;
-    @Column(nullable = false)
+    @Column(nullable = true)
     private String conteAlgoQueNaoPerguntamos;
 
 }
