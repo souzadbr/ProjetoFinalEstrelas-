@@ -127,6 +127,18 @@ public class UsuarioControllerTest {
 
     @Test
     @WithMockUser ("user@user.com")
+    public void testeRotaParaCadastrarUsuarioValidacaoEmailEmBranco()throws Exception{
+        Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        usuario.setEmail("  ");
+        String json = objectMapper.writeValueAsString(usuario);
+
+        ResultActions respostaDaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
+                        .contentType(MediaType.APPLICATION_JSON).content(json))
+                .andExpect(MockMvcResultMatchers.status().is(422));
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
     public void testeRotaParaCadastrarUsuarioValidacaoTelefoneNull()throws Exception{
         Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
         usuario.setTelefone(null);
