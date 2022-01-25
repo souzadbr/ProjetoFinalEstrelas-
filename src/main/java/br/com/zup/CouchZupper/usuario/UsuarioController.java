@@ -47,7 +47,7 @@ public class UsuarioController {
     }
 
     //fazer 3 puts, 1 pra atualizar os dados , 1 para atualizar email e senha e outro as preferências
-    @PutMapping("/{id}/dados")
+    @PutMapping("/dados/{id}")
     public UsuarioAtualizarDadosDTO atualizarDadosUsuario(@PathVariable String id,
                                                           @RequestBody UsuarioRequisicaoDTO usuarioRequisicaoDTO){
         UsuarioAtualizarDadosDTO usuarioAtualizarDadosDTO;
