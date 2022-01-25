@@ -26,7 +26,6 @@ import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -52,6 +51,7 @@ public class UsuarioControllerTest {
         objectMapper = new ObjectMapper();
 
         usuario = new Usuario();
+        usuario.setId("000aaa");
         usuario.setNome("Debora Rodrigues");
         usuario.setEmail("debora@gmail.com");
         usuario.setEstado(Estado.ACRE);
@@ -89,7 +89,7 @@ public class UsuarioControllerTest {
 
     }
 
-    private ResultActions relizarRequisicao(Object object, int statusEsperado, String httpVerbo, String complemento) throws Exception {
+    private ResultActions realizarRequisicao(Object object, int statusEsperado, String httpVerbo, String complemento) throws Exception {
         String json = objectMapper.writeValueAsString(object);
         URI uri = UriComponentsBuilder.fromPath("/usuario"+complemento).build().toUri();
 
@@ -103,7 +103,7 @@ public class UsuarioControllerTest {
         Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
         String json = objectMapper.writeValueAsString(usuarioRequisicaoDTO);
 
-        ResultActions resultActions = relizarRequisicao(usuario, 201, "POST","");
+        ResultActions resultActions = realizarRequisicao(usuario, 201, "POST","");
 
         String jsonResposta = resultActions.andReturn().getResponse().getContentAsString();
 
@@ -114,7 +114,7 @@ public class UsuarioControllerTest {
     public void testarBuscarUsuarios () throws Exception {
         Mockito.when(usuarioService.buscarUsuarios(Mockito.any(Estado.class))).thenReturn(Arrays.asList(usuario));
 
-        ResultActions resultActions = relizarRequisicao(null, 200, "GET","");
+        ResultActions resultActions = realizarRequisicao(null, 200, "GET","");
 
         resultActions.andExpect(MockMvcResultMatchers.jsonPath("$").isArray());
 
@@ -122,6 +122,15 @@ public class UsuarioControllerTest {
         List<ResumoCadastroDTO> resumoCadastroDTOS = objectMapper.readValue(
                 jsonResposta, new TypeReference<List<ResumoCadastroDTO>>() {
         });
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void  testarBuscarUsuarioPorID () throws Exception {
+        Mockito.when(usuarioService.buscarUsuarioPorId(Mockito.anyString())).thenReturn(usuario);
+
+        ResultActions resultActions = realizarRequisicao(null, 200, "GET", "/000aaa");
+
     }
 
     @Test
