@@ -9,11 +9,13 @@ import br.com.zup.CouchZupper.preferencia.Preferencia;
 import br.com.zup.CouchZupper.security.JWT.JWTComponent;
 import br.com.zup.CouchZupper.security.UsuarioLoginService;
 import br.com.zup.CouchZupper.usuario.dtos.ResumoCadastroDTO;
+import br.com.zup.CouchZupper.usuario.dtos.UsuarioAtualizarDadosDTO;
 import br.com.zup.CouchZupper.usuario.dtos.UsuarioRequisicaoDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -26,6 +28,7 @@ import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import java.io.UnsupportedEncodingException;
 import java.net.URI;
 import java.util.Arrays;
 import java.util.List;
@@ -141,6 +144,18 @@ public class UsuarioControllerTest {
 
         ResultActions resultadoEsperado = realizarRequisicao(null, 404, "GET", "/teste");
 
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void testarAtualizarDadosUsuario() throws Exception {
+        Mockito.when(usuarioService.buscarUsuarioPorId(Mockito.anyString())).thenReturn(usuario);
+        Mockito.when(usuarioService.atualizarDadosUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+
+        ResultActions resultadoEsperado = realizarRequisicao(usuario, 200, "PUT", "/dados/000aaa");
+
+        String jsonResposta = resultadoEsperado.andReturn().getResponse().getContentAsString();
+        UsuarioAtualizarDadosDTO usuarioAtualizarDadosDTO = objectMapper.readValue(jsonResposta, UsuarioAtualizarDadosDTO.class);
     }
 
     @Test
