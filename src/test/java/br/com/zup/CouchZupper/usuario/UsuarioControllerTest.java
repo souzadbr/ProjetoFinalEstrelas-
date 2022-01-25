@@ -7,7 +7,9 @@ import br.com.zup.CouchZupper.enums.TipoDePet;
 import br.com.zup.CouchZupper.preferencia.Preferencia;
 import br.com.zup.CouchZupper.security.JWT.JWTComponent;
 import br.com.zup.CouchZupper.security.UsuarioLoginService;
+import br.com.zup.CouchZupper.usuario.dtos.ResumoCadastroDTO;
 import br.com.zup.CouchZupper.usuario.dtos.UsuarioRequisicaoDTO;
+import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -21,6 +23,10 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 
 @WebMvcTest({UsuarioController.class, Conversor.class, JWTComponent.class, UsuarioLoginService.class})
@@ -82,7 +88,6 @@ public class UsuarioControllerTest {
     }
 
     @Test
-    @WithMockUser
     public void testarCadastroDeUsuario() throws Exception {
         Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
         String json = objectMapper.writeValueAsString(usuarioRequisicaoDTO);
@@ -93,6 +98,22 @@ public class UsuarioControllerTest {
 
         String jsonResposta = resultActions.andReturn().getResponse().getContentAsString();
 
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void testarBuscarUsuarios () throws Exception {
+        Mockito.when(usuarioService.buscarUsuarios(Mockito.any(Estado.class))).thenReturn(Arrays.asList(usuario));
+
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/usuario")
+                .contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().is(200))
+                .andExpect(MockMvcResultMatchers.jsonPath("$").isArray());
+
+        String jsonResposta = resultActions.andReturn().getResponse().getContentAsString();
+        List<ResumoCadastroDTO> resumoCadastroDTOS = objectMapper.readValue(
+                jsonResposta, new TypeReference<List<ResumoCadastroDTO>>() {
+        });
     }
 
     @Test
