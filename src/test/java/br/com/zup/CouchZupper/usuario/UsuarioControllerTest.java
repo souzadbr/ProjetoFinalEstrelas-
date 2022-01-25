@@ -23,7 +23,9 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.util.UriComponentsBuilder;
 
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -87,14 +89,21 @@ public class UsuarioControllerTest {
 
     }
 
+    private ResultActions relizarRequisicao(Object object, int statusEsperado, String httpVerbo, String complemento) throws Exception {
+        String json = objectMapper.writeValueAsString(object);
+        URI uri = UriComponentsBuilder.fromPath("/usuario"+complemento).build().toUri();
+
+        return mockMvc.perform(MockMvcRequestBuilders.request(httpVerbo, uri)
+                .content(json).contentType(MediaType.APPLICATION_JSON))
+                .andExpect(MockMvcResultMatchers.status().is(statusEsperado));
+    }
+
     @Test
     public void testarCadastroDeUsuario() throws Exception {
         Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
         String json = objectMapper.writeValueAsString(usuarioRequisicaoDTO);
 
-        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
-                        .content(json).contentType(MediaType.APPLICATION_JSON))
-                .andExpect((MockMvcResultMatchers.status().is(201)));
+        ResultActions resultActions = relizarRequisicao(usuario, 201, "POST","");
 
         String jsonResposta = resultActions.andReturn().getResponse().getContentAsString();
 
@@ -105,10 +114,9 @@ public class UsuarioControllerTest {
     public void testarBuscarUsuarios () throws Exception {
         Mockito.when(usuarioService.buscarUsuarios(Mockito.any(Estado.class))).thenReturn(Arrays.asList(usuario));
 
-        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.get("/usuario")
-                .contentType(MediaType.APPLICATION_JSON))
-                .andExpect(MockMvcResultMatchers.status().is(200))
-                .andExpect(MockMvcResultMatchers.jsonPath("$").isArray());
+        ResultActions resultActions = relizarRequisicao(null, 200, "GET","");
+
+        resultActions.andExpect(MockMvcResultMatchers.jsonPath("$").isArray());
 
         String jsonResposta = resultActions.andReturn().getResponse().getContentAsString();
         List<ResumoCadastroDTO> resumoCadastroDTOS = objectMapper.readValue(
