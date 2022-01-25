@@ -104,9 +104,9 @@ public class UsuarioControllerTest {
         Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
         String json = objectMapper.writeValueAsString(usuarioRequisicaoDTO);
 
-        ResultActions resultActions = realizarRequisicao(usuario, 201, "POST","");
+        ResultActions resultadoEsperado = realizarRequisicao(usuario, 201, "POST","");
 
-        String jsonResposta = resultActions.andReturn().getResponse().getContentAsString();
+        String jsonResposta = resultadoEsperado.andReturn().getResponse().getContentAsString();
 
     }
 
@@ -115,11 +115,11 @@ public class UsuarioControllerTest {
     public void testarBuscarUsuarios () throws Exception {
         Mockito.when(usuarioService.buscarUsuarios(Mockito.any(Estado.class))).thenReturn(Arrays.asList(usuario));
 
-        ResultActions resultActions = realizarRequisicao(null, 200, "GET","");
+        ResultActions resultadoEsperado = realizarRequisicao(null, 200, "GET","");
 
-        resultActions.andExpect(MockMvcResultMatchers.jsonPath("$").isArray());
+        resultadoEsperado.andExpect(MockMvcResultMatchers.jsonPath("$").isArray());
 
-        String jsonResposta = resultActions.andReturn().getResponse().getContentAsString();
+        String jsonResposta = resultadoEsperado.andReturn().getResponse().getContentAsString();
         List<ResumoCadastroDTO> resumoCadastroDTOS = objectMapper.readValue(
                 jsonResposta, new TypeReference<List<ResumoCadastroDTO>>() {
         });
@@ -130,7 +130,7 @@ public class UsuarioControllerTest {
     public void  testarBuscarUsuarioPorIDCaminhoPositivo () throws Exception {
         Mockito.when(usuarioService.buscarUsuarioPorId(Mockito.anyString())).thenReturn(usuario);
 
-        ResultActions resultActions = realizarRequisicao(null, 200, "GET", "/000aaa");
+        ResultActions resultadoEsperado = realizarRequisicao(null, 200, "GET", "/000aaa");
 
     }
 
@@ -139,7 +139,18 @@ public class UsuarioControllerTest {
     public void  testarBuscarUsuarioPorIDCaminhoNegativo () throws Exception {
         Mockito.doThrow(UsuarioNaoLocalizadoException.class).when(usuarioService).buscarUsuarioPorId(Mockito.anyString());
 
-        ResultActions resultActions = realizarRequisicao(null, 404, "GET", "/teste");
+        ResultActions resultadoEsperado = realizarRequisicao(null, 404, "GET", "/teste");
+
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void  testarDeletarUsuarioPorIDCaminhoPositivo () throws Exception {
+        Mockito.doNothing().when(usuarioService).deletarUsuario(Mockito.anyString());
+
+        ResultActions resultadoEsperado = realizarRequisicao(usuario, 204, "DELETE","/000aaa");
+
+        Mockito.verify(usuarioService, Mockito.times(1)).deletarUsuario(Mockito.anyString());
 
     }
 
