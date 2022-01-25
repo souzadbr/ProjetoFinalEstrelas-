@@ -4,6 +4,7 @@ import br.com.zup.CouchZupper.components.Conversor;
 import br.com.zup.CouchZupper.enums.Estado;
 import br.com.zup.CouchZupper.enums.Genero;
 import br.com.zup.CouchZupper.enums.TipoDePet;
+import br.com.zup.CouchZupper.exception.UsuarioNaoLocalizadoException;
 import br.com.zup.CouchZupper.preferencia.Preferencia;
 import br.com.zup.CouchZupper.security.JWT.JWTComponent;
 import br.com.zup.CouchZupper.security.UsuarioLoginService;
@@ -126,10 +127,19 @@ public class UsuarioControllerTest {
 
     @Test
     @WithMockUser ("user@user.com")
-    public void  testarBuscarUsuarioPorID () throws Exception {
+    public void  testarBuscarUsuarioPorIDCaminhoPositivo () throws Exception {
         Mockito.when(usuarioService.buscarUsuarioPorId(Mockito.anyString())).thenReturn(usuario);
 
         ResultActions resultActions = realizarRequisicao(null, 200, "GET", "/000aaa");
+
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void  testarBuscarUsuarioPorIDCaminhoNegativo () throws Exception {
+        Mockito.doThrow(UsuarioNaoLocalizadoException.class).when(usuarioService).buscarUsuarioPorId(Mockito.anyString());
+
+        ResultActions resultActions = realizarRequisicao(null, 404, "GET", "/teste");
 
     }
 
