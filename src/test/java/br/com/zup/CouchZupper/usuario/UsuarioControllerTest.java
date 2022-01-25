@@ -1,4 +1,4 @@
-package br.com.zup.CouchZupper;
+package br.com.zup.CouchZupper.usuario;
 
 import br.com.zup.CouchZupper.components.Conversor;
 import br.com.zup.CouchZupper.enums.Estado;
@@ -7,20 +7,16 @@ import br.com.zup.CouchZupper.enums.TipoDePet;
 import br.com.zup.CouchZupper.preferencia.Preferencia;
 import br.com.zup.CouchZupper.security.JWT.JWTComponent;
 import br.com.zup.CouchZupper.security.UsuarioLoginService;
-import br.com.zup.CouchZupper.usuario.Usuario;
-import br.com.zup.CouchZupper.usuario.UsuarioController;
-import br.com.zup.CouchZupper.usuario.UsuarioService;
+import br.com.zup.CouchZupper.usuario.dtos.UsuarioRequisicaoDTO;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.junit.runner.RunWith;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -40,7 +36,8 @@ public class UsuarioControllerTest {
 
     private ObjectMapper objectMapper;
     private Usuario usuario;
-    private Preferencia preferencia;
+    private Preferencia preferencia, preferenciaRequisicaoDTO;
+    private UsuarioRequisicaoDTO usuarioRequisicaoDTO;
 
     @BeforeEach
     private void setup() {
@@ -62,6 +59,39 @@ public class UsuarioControllerTest {
         preferencia.setTipoDePet(TipoDePet.GATO);
 
         usuario.setPreferencia(preferencia);
+
+        usuarioRequisicaoDTO = new UsuarioRequisicaoDTO();
+        usuarioRequisicaoDTO.setNome("Usuario Teste");
+        usuarioRequisicaoDTO.setEmail("usuario@usuario.com");
+        usuarioRequisicaoDTO.setIdade(23);
+        usuarioRequisicaoDTO.setTelefone("79999999999");
+        usuarioRequisicaoDTO.setEstado(Estado.SERGIPE);
+        usuarioRequisicaoDTO.setGenero(Genero.OUTRO);
+        usuarioRequisicaoDTO.setSenha("senhateste");
+
+        preferenciaRequisicaoDTO = new Preferencia();
+        preferenciaRequisicaoDTO.setId(1);
+        preferenciaRequisicaoDTO.setTemPet(true);
+        preferenciaRequisicaoDTO.setTipoDePet(TipoDePet.OUTRO);
+        preferenciaRequisicaoDTO.setFumante(false);
+        preferenciaRequisicaoDTO.setDisponivelParaReceberUmZupper(true);
+        preferenciaRequisicaoDTO.setConteAlgoQueNaoPerguntamos("Teste");
+
+        usuarioRequisicaoDTO.setPreferencia(preferenciaRequisicaoDTO);
+
+    }
+
+    @Test
+    @WithMockUser
+    public void testarCadastroDeUsuario() throws Exception {
+        Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        String json = objectMapper.writeValueAsString(usuarioRequisicaoDTO);
+
+        ResultActions resultActions = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
+                        .content(json).contentType(MediaType.APPLICATION_JSON))
+                .andExpect((MockMvcResultMatchers.status().is(201)));
+
+        String jsonResposta = resultActions.andReturn().getResponse().getContentAsString();
 
     }
 
