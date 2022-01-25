@@ -148,7 +148,7 @@ public class UsuarioControllerTest {
 
     @Test
     @WithMockUser ("user@user.com")
-    public void testarAtualizarDadosUsuario() throws Exception {
+    public void testarAtualizarDadosUsuarioCaminhoPositivo() throws Exception {
         Mockito.when(usuarioService.buscarUsuarioPorId(Mockito.anyString())).thenReturn(usuario);
         Mockito.when(usuarioService.atualizarDadosUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
 
@@ -156,6 +156,15 @@ public class UsuarioControllerTest {
 
         String jsonResposta = resultadoEsperado.andReturn().getResponse().getContentAsString();
         UsuarioAtualizarDadosDTO usuarioAtualizarDadosDTO = objectMapper.readValue(jsonResposta, UsuarioAtualizarDadosDTO.class);
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void testarAtualizarDadosUsuarioCaminhoNegativo() throws Exception {
+        Mockito.doThrow(UsuarioNaoLocalizadoException.class).when(usuarioService).buscarUsuarioPorId(Mockito.anyString());
+
+        ResultActions resultadoEsperado = realizarRequisicao(usuario, 404, "PUT", "/dados/teste");
+
     }
 
     @Test
