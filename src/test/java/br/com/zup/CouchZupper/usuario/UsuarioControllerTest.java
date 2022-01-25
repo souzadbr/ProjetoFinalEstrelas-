@@ -156,6 +156,15 @@ public class UsuarioControllerTest {
 
     @Test
     @WithMockUser ("user@user.com")
+    public void  testarDeletarUsuarioPorIDCaminhoNegativo () throws Exception {
+        Mockito.doThrow(UsuarioNaoLocalizadoException.class).when(usuarioService).deletarUsuario(Mockito.anyString());
+
+        ResultActions resultadoEsperado = realizarRequisicao(null, 404, "DELETE", "/teste");
+
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
     public void testeRotaParaCadastrarUsuarioValidacaoNomeNull()throws Exception{
         Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
         usuario.setNome(null);
