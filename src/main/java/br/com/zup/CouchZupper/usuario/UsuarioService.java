@@ -21,6 +21,11 @@ public class UsuarioService {
 
 
     public Usuario salvarUsuario(Usuario novoUsuario) {
+
+        String senhaEscondida = bCryptPasswordEncoder.encode(novoUsuario.getSenha());
+
+        novoUsuario.setSenha(senhaEscondida);
+
         if (verificarEmailExistente(novoUsuario.getEmail())) {
             throw new EmailJaCadastradoException();
         }
