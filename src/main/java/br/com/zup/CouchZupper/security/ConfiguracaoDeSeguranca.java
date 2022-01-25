@@ -46,6 +46,11 @@ public class ConfiguracaoDeSeguranca extends WebSecurityConfigurerAdapter {
 
     }
 
+    @Override
+    protected void configure(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(bCryptPasswordEncoder());
+    }
+
     @Bean
     CorsConfigurationSource configurarCORS() {
         UrlBasedCorsConfigurationSource corsConfigurationSource = new UrlBasedCorsConfigurationSource();
