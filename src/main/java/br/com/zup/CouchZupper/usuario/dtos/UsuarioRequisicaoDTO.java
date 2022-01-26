@@ -11,20 +11,23 @@ import lombok.Setter;
 import javax.validation.Valid;
 import javax.validation.constraints.*;
 
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UsuarioRequisicaoDTO {
     @Email(message = "{validacao.email.email}")
     @NotNull(message = "{validacao.email.not-null}")
     private String email;
-    @Size(min=2, max=50, message = "{validacao.nome.size}")
+    @Size(min = 2, max = 50, message = "{validacao.nome.size}")
     @NotNull(message = "{validacao.nome.not-null}")
     @NotBlank(message = "{validacao.nome.not-blank}")
     private String nome;
-    @DecimalMin(value = "18",message = "{validacao.idade.decimal-min}")
+    @DecimalMin(value = "18", message = "{validacao.idade.decimal-min}")
     private int idade;
     @NotNull(message = "{validacao.telefone.not-null}")
     @NotBlank(message = "{validacao.telefone.not-blank}")
+    @Pattern(regexp = "^(?:(?:\\+|00)?(55)\\s?)?(?:\\(?([1-9][0-9])\\)?\\s?)?(?:((?:9\\d|[2-9])\\d{3})\\-?(\\d{4}))$", message = "{validacao.telefone.padrao}")
     private String telefone;
     @Valid
     @NotNull(message = "{validacao.estado.not-null}")
