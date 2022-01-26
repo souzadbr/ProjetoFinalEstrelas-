@@ -1,13 +1,16 @@
 package br.com.zup.CouchZupper.usuario;
 
 import br.com.zup.CouchZupper.enums.Estado;
+import br.com.zup.CouchZupper.enums.Genero;
 import br.com.zup.CouchZupper.exception.EmailJaCadastradoException;
 import br.com.zup.CouchZupper.exception.TelefoneJaCadastradoException;
 import br.com.zup.CouchZupper.exception.UsuarioNaoLocalizadoException;
+import br.com.zup.CouchZupper.usuario.dtos.UsuarioRequisicaoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -58,16 +61,27 @@ public class UsuarioService {
     }
 
     public Usuario buscarUsuarioPorId(String id) {
-        for (Usuario usuarioReferencia : usuarioRepository.findAll()) {
-            if (id.equals(usuarioReferencia.getId())) {
-                return usuarioReferencia;
-            }
+        Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
+
+        if (usuarioOptional.isEmpty()){
+            throw new UsuarioNaoLocalizadoException();
         }
-        throw new UsuarioNaoLocalizadoException();
+
+        return usuarioOptional.get();
     }
 
-    public Usuario atualizarDadosUsuario(Usuario usuario) {
-        return usuarioRepository.save(usuario);
+    public Usuario atualizarDadosUsuario(String id, Usuario usuario) {
+
+        Usuario usuarioAAtualizar = buscarUsuarioPorId(id);
+
+        usuarioAAtualizar.setNome(usuario.getNome());
+        usuarioAAtualizar.setTelefone(usuario.getTelefone());
+        usuarioAAtualizar.setEstado(usuario.getEstado());
+        usuarioAAtualizar.setGenero(usuario.getGenero());
+
+        usuarioRepository.save(usuarioAAtualizar);
+
+        return usuarioAAtualizar;
     }
 
     public void deletarUsuario(String id) {

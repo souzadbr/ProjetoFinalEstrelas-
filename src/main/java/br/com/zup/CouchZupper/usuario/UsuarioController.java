@@ -1,10 +1,7 @@
 package br.com.zup.CouchZupper.usuario;
 
 import br.com.zup.CouchZupper.enums.Estado;
-import br.com.zup.CouchZupper.usuario.dtos.ResumoCadastroDTO;
-import br.com.zup.CouchZupper.usuario.dtos.UsuarioAtualizarDadosDTO;
-import br.com.zup.CouchZupper.usuario.dtos.UsuarioRequisicaoDTO;
-import br.com.zup.CouchZupper.usuario.dtos.UsuarioRespostaDTO;
+import br.com.zup.CouchZupper.usuario.dtos.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -47,17 +44,13 @@ public class UsuarioController {
     }
 
     //fazer 3 puts, 1 pra atualizar os dados , 1 para atualizar email e senha e outro as preferências
-    @PutMapping("/dados/{id}")
+    @PutMapping ("/dados/{id}")
     public UsuarioAtualizarDadosDTO atualizarDadosUsuario(@PathVariable String id,
                                                           @RequestBody UsuarioRequisicaoDTO usuarioRequisicaoDTO){
         UsuarioAtualizarDadosDTO usuarioAtualizarDadosDTO;
-        Usuario usuarioAAtualizar = usuarioService.buscarUsuarioPorId(id);
-        usuarioAAtualizar.setNome(usuarioRequisicaoDTO.getNome());
-        usuarioAAtualizar.setTelefone(usuarioRequisicaoDTO.getTelefone());
-        usuarioAAtualizar.setEstado(usuarioRequisicaoDTO.getEstado());
-        usuarioAAtualizar.setGenero(usuarioRequisicaoDTO.getGenero());
-        usuarioAAtualizar.setIdade(usuarioRequisicaoDTO.getIdade());
-        usuarioAtualizarDadosDTO = modelMapper.map(usuarioService.atualizarDadosUsuario(usuarioAAtualizar), UsuarioAtualizarDadosDTO.class);
+        Usuario usuario = modelMapper.map(usuarioRequisicaoDTO, Usuario.class);
+        Usuario usuarioAtualizar = usuarioService.atualizarDadosUsuario(id, usuario);
+        usuarioAtualizarDadosDTO = modelMapper.map(usuarioAtualizar, UsuarioAtualizarDadosDTO.class);
 
         return usuarioAtualizarDadosDTO;
     }

@@ -150,7 +150,7 @@ public class UsuarioControllerTest {
     @WithMockUser ("user@user.com")
     public void testarAtualizarDadosUsuarioCaminhoPositivo() throws Exception {
         Mockito.when(usuarioService.buscarUsuarioPorId(Mockito.anyString())).thenReturn(usuario);
-        Mockito.when(usuarioService.atualizarDadosUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        //Mockito.when(usuarioService.atualizarDadosUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
 
         ResultActions resultadoEsperado = realizarRequisicao(usuario, 200, "PUT", "/dados/000aaa");
 
