@@ -84,6 +84,20 @@ public class UsuarioService {
         return usuarioAAtualizar;
     }
 
+    public Usuario atualizarDadosLoginUsuario(String id, Usuario usuario) {
+
+        Usuario usuarioAAtualizar = buscarUsuarioPorId(id);
+        String senhaEscondida = bCryptPasswordEncoder.encode(usuario.getSenha());
+
+        usuarioAAtualizar.setEmail(usuario.getEmail());
+        usuarioAAtualizar.setSenha(senhaEscondida);
+
+        usuarioRepository.save(usuarioAAtualizar);
+
+        return usuarioAAtualizar;
+    }
+
+
     public void deletarUsuario(String id) {
         if (!usuarioRepository.existsById(id)) {
             throw new UsuarioNaoLocalizadoException();
