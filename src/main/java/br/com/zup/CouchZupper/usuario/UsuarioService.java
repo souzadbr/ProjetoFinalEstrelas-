@@ -1,6 +1,7 @@
 package br.com.zup.CouchZupper.usuario;
 
 import br.com.zup.CouchZupper.enums.Estado;
+import br.com.zup.CouchZupper.enums.Genero;
 import br.com.zup.CouchZupper.exception.EmailJaCadastradoException;
 import br.com.zup.CouchZupper.exception.TelefoneJaCadastradoException;
 import br.com.zup.CouchZupper.exception.UsuarioNaoLocalizadoException;
@@ -49,9 +50,12 @@ public class UsuarioService {
         return (List<Usuario>) listaUsuarios;
     }
 
-    public List<Usuario> buscarUsuarios(Estado estado) {
+    public List<Usuario> buscarUsuarios(Estado estado, Genero genero) {
         if (estado != null) {
             return usuarioRepository.findAllByEstado(estado);
+        }
+        if (genero != null) {
+            return usuarioRepository.findAllByGenero(genero);
         }
 
         return listarUsuarios();
