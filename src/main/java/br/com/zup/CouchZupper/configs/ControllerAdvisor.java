@@ -29,36 +29,36 @@ public class ControllerAdvisor {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public MensagemDeErro manipularEnum(HttpMessageNotReadableException exception) {
-        return new MensagemDeErro("Possuí erros de escrita.");
+        return new MensagemDeErro("Dado inserido incorretamente, verifique e tente novamente");
     }
 
     @ExceptionHandler(AcessoNegadoException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public MensagemDeErro manipularErrosDeAcessoNegado(AcessoNegadoException exception) {
-        return new MensagemDeErro(exception.getLocalizedMessage());
+        return new MensagemDeErro("Verifique credenciais de acesso");
     }
 
     @ExceptionHandler(EmailJaCadastradoException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public MensagemDeErro manipularEmailsJaCadastrados(EmailJaCadastradoException exception) {
-        return new MensagemDeErro(exception.getLocalizedMessage());
+        return new MensagemDeErro("Esse e-mail já foi cadastrado");
     }
 
     @ExceptionHandler(TelefoneJaCadastradoException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public MensagemDeErro manipularTelefoneJaCadastrados(TelefoneJaCadastradoException exception) {
-        return new MensagemDeErro(exception.getLocalizedMessage());
+        return new MensagemDeErro("Esse telefone já foi cadastrado");
     }
 
     @ExceptionHandler(TokenInvalidoException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public MensagemDeErro manipularTokenInvalido(TokenInvalidoException exception) {
-        return new MensagemDeErro(exception.getLocalizedMessage());
+        return new MensagemDeErro("Verifique o token de autenticação");
     }
 
     @ExceptionHandler(UsuarioNaoLocalizadoException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public MensagemDeErro manipularUsuarioNaoLocalizado(UsuarioNaoLocalizadoException exception){
-        return new MensagemDeErro(exception.getLocalizedMessage());
+        return new MensagemDeErro("Cadastro não encontrado");
     }
 }
