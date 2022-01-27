@@ -29,7 +29,9 @@ public class ControllerAdvisor {
     @ExceptionHandler(HttpMessageNotReadableException.class)
     @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
     public MensagemDeErro manipularEnum(HttpMessageNotReadableException exception) {
+
         return new MensagemDeErro("Dado inserido incorretamente, verifique e tente novamente");
+
     }
 
     @ExceptionHandler(AcessoNegadoException.class)
@@ -60,5 +62,11 @@ public class ControllerAdvisor {
     @ResponseStatus(HttpStatus.NOT_FOUND)
     public MensagemDeErro manipularUsuarioNaoLocalizado(UsuarioNaoLocalizadoException exception){
         return new MensagemDeErro("Cadastro não encontrado");
+    }
+
+    @ExceptionHandler(PreferenciaNaoLocalizadaException.class)
+    @ResponseStatus(HttpStatus.NOT_FOUND)
+    public MensagemDeErro manipularPreferenciaNaoLocalizada(PreferenciaNaoLocalizadaException exception){
+        return new MensagemDeErro(exception.getLocalizedMessage());
     }
 }

@@ -1,4 +1,4 @@
-package br.com.zup.CouchZupper.usuario.dto;
+package br.com.zup.CouchZupper.usuario.dtos;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

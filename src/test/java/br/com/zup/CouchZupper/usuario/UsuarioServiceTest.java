@@ -102,13 +102,13 @@ public class UsuarioServiceTest {
                 .existsByTelefone(Mockito.anyString());
     }
 
-    @Test
+   /* @Test
     public void testarAtualizarDados(){
         Mockito.when(usuarioRepository.save(Mockito.any(Usuario.class))).thenReturn(usuario);
         usuarioService.atualizarDadosUsuario(usuario);
 
         Mockito.verify(usuarioRepository, Mockito.times(1)).save(Mockito.any(Usuario.class));
-    }
+    }*/
 
     @Test
     public void testarDeletarUsuarioCaminhoPositivo(){
