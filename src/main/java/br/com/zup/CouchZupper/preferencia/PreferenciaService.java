@@ -18,4 +18,17 @@ public class PreferenciaService {
         }
         return preferenciaOptional.get();
     }
+
+    public Preferencia atualizarPreferencias (int id, Preferencia preferencia){
+        Preferencia preferenciaAtualizar = buscarPreferenciaPorId(id);
+
+        preferenciaAtualizar.setTemPet(preferencia.isTemPet());
+        preferenciaAtualizar.setTipoDePet(preferencia.getTipoDePet());
+        preferenciaAtualizar.setFumante(preferenciaAtualizar.isFumante());
+        preferenciaAtualizar.setDisponivelParaReceberUmZupper(preferencia.isDisponivelParaReceberUmZupper());
+        preferenciaAtualizar.setConteAlgoQueNaoPerguntamos(preferencia.getConteAlgoQueNaoPerguntamos());
+
+        preferenciaRepository.save(preferenciaAtualizar);
+        return preferenciaAtualizar;
+    }
 }
