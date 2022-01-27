@@ -1,6 +1,7 @@
 package br.com.zup.CouchZupper.usuario;
 
 import br.com.zup.CouchZupper.enums.Estado;
+import br.com.zup.CouchZupper.enums.Genero;
 import br.com.zup.CouchZupper.usuario.dtos.*;
 import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,9 +30,10 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public List<ResumoCadastroDTO> buscarUsuarios(@RequestParam(required = false) @Valid Estado estado){
+    public List<ResumoCadastroDTO> buscarUsuarios(@RequestParam(required = false) @Valid Estado estado,
+                                                  @RequestParam(required = false) Genero genero){
         List<ResumoCadastroDTO> listaResumo = new ArrayList<>();
-        for (Usuario usuario: usuarioService.buscarUsuarios(estado)){
+        for (Usuario usuario: usuarioService.buscarUsuarios(estado, genero)){
             ResumoCadastroDTO resumo = modelMapper.map(usuario, ResumoCadastroDTO.class);
             listaResumo.add(resumo);
         }
