@@ -52,9 +52,12 @@ public class UsuarioService {
         return (List<Usuario>) listaUsuarios;
     }
 
-    public List<Usuario> buscarUsuarios(Estado estado) {
+    public List<Usuario> buscarUsuarios(Estado estado, Genero genero) {
         if (estado != null) {
             return usuarioRepository.findAllByEstado(estado);
+        }
+        if (genero != null) {
+            return usuarioRepository.findAllByGenero(genero);
         }
 
         return listarUsuarios();

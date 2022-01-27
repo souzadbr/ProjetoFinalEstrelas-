@@ -116,7 +116,7 @@ public class UsuarioControllerTest {
     @Test
     @WithMockUser ("user@user.com")
     public void testarBuscarUsuarios () throws Exception {
-        Mockito.when(usuarioService.buscarUsuarios(Mockito.any(Estado.class))).thenReturn(Arrays.asList(usuario));
+        Mockito.when(usuarioService.buscarUsuarios(Mockito.any(Estado.class), Mockito.any(Genero.class))).thenReturn(Arrays.asList(usuario));
 
         ResultActions resultadoEsperado = realizarRequisicao(null, 200, "GET","");
 
