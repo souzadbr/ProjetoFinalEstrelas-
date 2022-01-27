@@ -23,13 +23,13 @@ public class UsuarioController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public void cadastrarUsuario(@RequestBody UsuarioRequisicaoDTO usuarioRequisicaoDTO){
+    public void cadastrarUsuario(@RequestBody @Valid UsuarioRequisicaoDTO usuarioRequisicaoDTO){
         Usuario usuario = modelMapper.map(usuarioRequisicaoDTO, Usuario.class);
         usuarioService.salvarUsuario(usuario);
     }
 
     @GetMapping
-    public List<ResumoCadastroDTO> buscarUsuarios(@RequestParam(required = false) Estado estado){
+    public List<ResumoCadastroDTO> buscarUsuarios(@RequestParam(required = false) @Valid Estado estado){
         List<ResumoCadastroDTO> listaResumo = new ArrayList<>();
         for (Usuario usuario: usuarioService.buscarUsuarios(estado)){
             ResumoCadastroDTO resumo = modelMapper.map(usuario, ResumoCadastroDTO.class);
@@ -44,8 +44,10 @@ public class UsuarioController {
     }
 
     //fazer 3 puts, 1 pra atualizar os dados , 1 para atualizar email e senha e outro as preferências
-    @PutMapping ("/dados/{id}")
-    public UsuarioAtualizarDadosDTO atualizarDadosUsuario(@PathVariable String id,
+
+    @PutMapping("/dados/{id}")
+    public UsuarioAtualizarDadosDTO atualizarDadosUsuario(@PathVariable String id, @Valid
+
                                                           @RequestBody UsuarioRequisicaoDTO usuarioRequisicaoDTO){
         UsuarioAtualizarDadosDTO usuarioAtualizarDadosDTO;
         Usuario usuario = modelMapper.map(usuarioRequisicaoDTO, Usuario.class);
