@@ -2,6 +2,7 @@ package br.com.zup.CouchZupper;
 
 import br.com.zup.CouchZupper.components.Conversor;
 import br.com.zup.CouchZupper.enums.TipoDePet;
+import br.com.zup.CouchZupper.exception.PreferenciaNaoLocalizadaException;
 import br.com.zup.CouchZupper.preferencia.Preferencia;
 import br.com.zup.CouchZupper.preferencia.PreferenciaController;
 import br.com.zup.CouchZupper.preferencia.PreferenciaService;
@@ -69,6 +70,16 @@ public class PreferenciaControllerTest {
         ResultActions resultadoEsperado = realizarRequisicao(preferencia, 200, "PUT", "/2");
 
         String jsonResposta = resultadoEsperado.andReturn().getResponse().getContentAsString();
+
+    }
+
+    @Test
+    @WithMockUser("user@user.com")
+    public void testarAtualizarDadosPreferenciaoCaminhoNegativo() throws Exception {
+        Mockito.doThrow(PreferenciaNaoLocalizadaException.class).when(preferenciaService)
+                .atualizarPreferencias(Mockito.anyInt(), Mockito.any(Preferencia.class));
+
+        ResultActions resultadoEsperado = realizarRequisicao(preferencia, 404, "PUT", "/9");
 
     }
 
