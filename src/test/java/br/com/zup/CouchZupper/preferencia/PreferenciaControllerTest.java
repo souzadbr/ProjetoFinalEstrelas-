@@ -1,7 +1,7 @@
 package br.com.zup.CouchZupper;
 
 import br.com.zup.CouchZupper.components.Conversor;
-import br.com.zup.CouchZupper.enums.TipoDePet;;
+import br.com.zup.CouchZupper.enums.TipoDePet;
 import br.com.zup.CouchZupper.preferencia.Preferencia;
 import br.com.zup.CouchZupper.preferencia.PreferenciaController;
 import br.com.zup.CouchZupper.preferencia.PreferenciaService;
@@ -10,10 +10,13 @@ import br.com.zup.CouchZupper.security.JWT.JWTComponent;
 import br.com.zup.CouchZupper.security.UsuarioLoginService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
@@ -55,6 +58,18 @@ public class PreferenciaControllerTest {
         return mockMvc.perform(MockMvcRequestBuilders.request(httpVerbo, uri)
                         .content(json).contentType(MediaType.APPLICATION_JSON))
                 .andExpect(MockMvcResultMatchers.status().is(statusEsperado));
+    }
+
+    @Test
+    @WithMockUser("user@user.com")
+    public void TestarAtualizarPreferenciaCaminhoPositivo() throws Exception {
+        Mockito.when(preferenciaService.atualizarPreferencias(Mockito.anyInt(), Mockito.any(Preferencia.class))).thenReturn(preferencia);
+
+        String json = objectMapper.writeValueAsString(preferenciaEntradaDTO);
+        ResultActions resultadoEsperado = realizarRequisicao(preferencia, 200, "PUT", "/2");
+
+        String jsonResposta = resultadoEsperado.andReturn().getResponse().getContentAsString();
+
     }
 
 }
