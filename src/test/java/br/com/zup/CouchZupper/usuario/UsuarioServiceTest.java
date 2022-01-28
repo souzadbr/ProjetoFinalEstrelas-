@@ -7,6 +7,7 @@ import br.com.zup.CouchZupper.exception.EmailJaCadastradoException;
 import br.com.zup.CouchZupper.exception.TelefoneJaCadastradoException;
 import br.com.zup.CouchZupper.exception.UsuarioNaoLocalizadoException;
 import br.com.zup.CouchZupper.preferencia.Preferencia;
+import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
@@ -53,6 +55,14 @@ public class UsuarioServiceTest {
         usuario.setPreferencia(preferencia);
 
         usuarioAAtualizar = new Usuario();
+    }
+
+    @Test
+    public void testarBuscarUsuariosPorIdCaminhoPositivo(){
+        Mockito.when(usuarioRepository.findById(Mockito.anyString())).thenReturn(Optional.of(usuario));
+        Usuario usuarioOptional = usuarioService.buscarUsuarioPorId(Mockito.anyString());
+
+        Assertions.assertEquals(usuario.getId(), usuarioOptional.getId());
     }
 
     @Test
