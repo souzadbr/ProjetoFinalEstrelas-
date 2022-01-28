@@ -22,7 +22,6 @@ import java.util.List;
 public class UsuarioServiceTest {
     @MockBean
     private UsuarioRepository usuarioRepository;
-
     @Autowired
     private UsuarioService usuarioService;
 
@@ -105,12 +104,11 @@ public class UsuarioServiceTest {
    /* @Test
     public void testarAtualizarDados(){
         Mockito.when(usuarioRepository.save(Mockito.any(Usuario.class))).thenReturn(usuario);
-        usuarioService.atualizarDadosUsuario(usuario);
 
         Mockito.verify(usuarioRepository, Mockito.times(1)).save(Mockito.any(Usuario.class));
     }*/
 
-    @Test
+   @Test
     public void testarDeletarUsuarioCaminhoPositivo(){
         Mockito.when(usuarioRepository.existsById(Mockito.anyString())).thenReturn(true);
         usuarioService.deletarUsuario("000aaa");
