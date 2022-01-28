@@ -3,6 +3,7 @@ package br.com.zup.CouchZupper.usuario;
 import br.com.zup.CouchZupper.enums.Estado;
 import br.com.zup.CouchZupper.enums.Genero;
 import br.com.zup.CouchZupper.exception.EmailJaCadastradoException;
+import br.com.zup.CouchZupper.exception.EmailNaoZupException;
 import br.com.zup.CouchZupper.exception.TelefoneJaCadastradoException;
 import br.com.zup.CouchZupper.exception.UsuarioNaoLocalizadoException;
 import br.com.zup.CouchZupper.usuario.dtos.UsuarioRequisicaoDTO;
