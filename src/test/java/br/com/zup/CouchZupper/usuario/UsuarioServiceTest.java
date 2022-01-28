@@ -66,6 +66,14 @@ public class UsuarioServiceTest {
     }
 
     @Test
+    public void testarBuscarUsuariosPorIdCaminhoNegativo(){
+        Mockito.when(usuarioRepository.findById(Mockito.anyString())).thenReturn(Optional.empty());
+        UsuarioNaoLocalizadoException exception = Assertions.assertThrows(UsuarioNaoLocalizadoException.class,
+                () -> {usuarioService.buscarUsuarioPorId("teste");
+        });
+    }
+
+    @Test
     public void testarSalvarUsuarioCaminhoPositivo() {
         Mockito.when(usuarioRepository.save(Mockito.any(Usuario.class))).thenReturn(usuario);
         Mockito.when(usuarioService.verificarEmailExistente(Mockito.anyString())).thenReturn(false);
