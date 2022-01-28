@@ -26,6 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.UnsupportedEncodingException;
@@ -110,7 +111,7 @@ public class UsuarioControllerTest {
         ResultActions resultadoEsperado = realizarRequisicao(usuario, 201, "POST","");
 
         String jsonResposta = resultadoEsperado.andReturn().getResponse().getContentAsString();
-
+        Mockito.verify(usuarioService, Mockito.times(1)).salvarUsuario(Mockito.any(Usuario.class));
     }
 
     @Test
@@ -150,7 +151,7 @@ public class UsuarioControllerTest {
     @WithMockUser ("user@user.com")
     public void testarAtualizarDadosUsuarioCaminhoPositivo() throws Exception {
         Mockito.when(usuarioService.buscarUsuarioPorId(Mockito.anyString())).thenReturn(usuario);
-        //Mockito.when(usuarioService.atualizarDadosUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        Mockito.when(usuarioService.atualizarDadosUsuario(Mockito.anyString(),Mockito.any(Usuario.class))).thenReturn(usuario);
 
         ResultActions resultadoEsperado = realizarRequisicao(usuario, 200, "PUT", "/dados/000aaa");
 
