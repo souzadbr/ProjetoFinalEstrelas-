@@ -124,7 +124,7 @@ public class UsuarioServiceTest {
     }
 
     @Test
-    public void testarAtualizarDados() {
+    public void testarAtualizarDadosUsuarioCaminhoPositivo() {
         Mockito.when(usuarioRepository.findById(Mockito.anyString())).thenReturn(Optional.of(usuario));
         Mockito.when(usuarioRepository.save(Mockito.any(Usuario.class))).thenReturn(usuario);
         usuarioService.atualizarDadosUsuario(Mockito.anyString(), usuarioAAtualizar);
@@ -135,6 +135,18 @@ public class UsuarioServiceTest {
         Assertions.assertEquals(usuario.getGenero(), usuarioAAtualizar.getGenero());
 
         Mockito.verify(usuarioRepository, Mockito.times(1)).save(Mockito.any(Usuario.class));
+
+    }
+
+    @Test
+    public void testarAtualizarDadosUsuarioCaminhoNegativo(){
+        Mockito.when(usuarioRepository.findById(Mockito.anyString())).thenReturn(Optional.empty());
+
+        UsuarioNaoLocalizadoException exception = Assertions.assertThrows(UsuarioNaoLocalizadoException.class,
+                () -> {usuarioService.atualizarDadosUsuario("teste", Mockito.any(Usuario.class));
+                });
+
+        Mockito.verify(usuarioRepository, Mockito.times(0)).save(Mockito.any(Usuario.class));
 
     }
 
