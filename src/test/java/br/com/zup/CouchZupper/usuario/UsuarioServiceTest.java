@@ -17,19 +17,21 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.Optional;
 
 @SpringBootTest
 public class UsuarioServiceTest {
     @MockBean
     private UsuarioRepository usuarioRepository;
+
     @Autowired
     private UsuarioService usuarioService;
 
-    private Usuario usuario;
+    private Usuario usuario, usuarioAAtualizar;
     private Preferencia preferencia;
 
     @BeforeEach
-    public void setup (){
+    public void setup() {
         usuario = new Usuario();
         usuario.setId("000aaa");
         usuario.setNome("Usuario Teste");
@@ -49,20 +51,22 @@ public class UsuarioServiceTest {
         preferencia.setConteAlgoQueNaoPerguntamos("Teste");
 
         usuario.setPreferencia(preferencia);
+
+        usuarioAAtualizar = new Usuario();
     }
 
     @Test
-    public void testarSalvarUsuarioCaminhoPositivo(){
+    public void testarSalvarUsuarioCaminhoPositivo() {
         Mockito.when(usuarioRepository.save(Mockito.any(Usuario.class))).thenReturn(usuario);
         Mockito.when(usuarioService.verificarEmailExistente(Mockito.anyString())).thenReturn(false);
         Mockito.when(usuarioService.verificarTelefoneExistente(Mockito.anyString())).thenReturn(false);
 
-        Usuario usuarioObjeto = usuarioService.salvarUsuario(usuario);
+        usuarioService.salvarUsuario(usuario);
         Mockito.verify(usuarioRepository, Mockito.times(1)).save(Mockito.any(Usuario.class));
     }
 
     @Test
-    public void testarSalvarUsuarioEmailExistente(){
+    public void testarSalvarUsuarioEmailExistente() {
         Mockito.when(usuarioRepository.save(Mockito.any(Usuario.class))).thenReturn(usuario);
         Mockito.when(usuarioService.verificarEmailExistente(Mockito.anyString())).thenReturn(true);
         Mockito.when(usuarioService.verificarTelefoneExistente(Mockito.anyString())).thenReturn(false);
@@ -75,7 +79,7 @@ public class UsuarioServiceTest {
     }
 
     @Test
-    public void testarSalvarUsuarioTelefoneExistente(){
+    public void testarSalvarUsuarioTelefoneExistente() {
         Mockito.when(usuarioRepository.save(Mockito.any(Usuario.class))).thenReturn(usuario);
         Mockito.when(usuarioService.verificarEmailExistente(Mockito.anyString())).thenReturn(false);
         Mockito.when(usuarioService.verificarTelefoneExistente(Mockito.anyString())).thenReturn(true);
@@ -88,28 +92,36 @@ public class UsuarioServiceTest {
     }
 
     @Test
-    public void testarVerificarEmailExistente(){
+    public void testarVerificarEmailExistente() {
         usuarioService.verificarEmailExistente(Mockito.anyString());
         Mockito.verify(usuarioRepository, Mockito.times(1))
                 .existsByEmail(Mockito.anyString());
     }
 
     @Test
-    public void testarVerificarTelefoneExistente(){
+    public void testarVerificarTelefoneExistente() {
         usuarioService.verificarTelefoneExistente(Mockito.anyString());
         Mockito.verify(usuarioRepository, Mockito.times(1))
                 .existsByTelefone(Mockito.anyString());
     }
 
-   /* @Test
-    public void testarAtualizarDados(){
+    @Test
+    public void testarAtualizarDados() {
+        Mockito.when(usuarioRepository.findById(Mockito.anyString())).thenReturn(Optional.of(usuario));
         Mockito.when(usuarioRepository.save(Mockito.any(Usuario.class))).thenReturn(usuario);
+        usuarioService.atualizarDadosUsuario(Mockito.anyString(), usuarioAAtualizar);
+
+        Assertions.assertEquals(usuario.getNome(), usuarioAAtualizar.getNome());
+        Assertions.assertEquals(usuario.getTelefone(), usuarioAAtualizar.getTelefone());
+        Assertions.assertEquals(usuario.getEstado(), usuarioAAtualizar.getEstado());
+        Assertions.assertEquals(usuario.getGenero(), usuarioAAtualizar.getGenero());
 
         Mockito.verify(usuarioRepository, Mockito.times(1)).save(Mockito.any(Usuario.class));
-    }*/
 
-   @Test
-    public void testarDeletarUsuarioCaminhoPositivo(){
+    }
+
+    @Test
+    public void testarDeletarUsuarioCaminhoPositivo() {
         Mockito.when(usuarioRepository.existsById(Mockito.anyString())).thenReturn(true);
         usuarioService.deletarUsuario("000aaa");
 
@@ -117,12 +129,12 @@ public class UsuarioServiceTest {
     }
 
     @Test
-    public void testarDeletarUsuarioCaminhoNegativo(){
+    public void testarDeletarUsuarioCaminhoNegativo() {
         Mockito.when(usuarioRepository.existsById(Mockito.anyString())).thenReturn(false);
         Mockito.doNothing().when(usuarioRepository).deleteById(Mockito.anyString());
 
         UsuarioNaoLocalizadoException exception = Assertions.assertThrows(UsuarioNaoLocalizadoException.class, () -> {
-           usuarioService.deletarUsuario("teste");
+            usuarioService.deletarUsuario("teste");
         });
 
     }
