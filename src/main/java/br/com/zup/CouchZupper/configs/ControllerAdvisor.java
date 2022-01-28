@@ -69,4 +69,10 @@ public class ControllerAdvisor {
     public MensagemDeErro manipularPreferenciaNaoLocalizada(PreferenciaNaoLocalizadaException exception){
         return new MensagemDeErro(exception.getLocalizedMessage());
     }
+
+    @ExceptionHandler(EmailNaoZupException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public MensagemDeErro manipularEmailNaoZup(EmailNaoZupException exception){
+        return new MensagemDeErro("E-mail inválido, use um email da Zup!");
+    }
 }
