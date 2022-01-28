@@ -170,6 +170,17 @@ public class UsuarioControllerTest {
 
     @Test
     @WithMockUser ("user@user.com")
+    public void testarAtualizarDadosLoginUsuarioCaminhoPositivo() throws Exception {
+        Mockito.when(usuarioService.buscarUsuarioPorId(Mockito.anyString())).thenReturn(usuario);
+
+        ResultActions resultadoEsperado = realizarRequisicao(usuario, 200, "PUT", "/login/000aaa");
+
+        String jsonResposta = resultadoEsperado.andReturn().getResponse().getContentAsString();
+       // UsuarioAtualizarDadosDTO usuarioAtualizarDadosDTO = objectMapper.readValue(jsonResposta, UsuarioAtualizarDadosDTO.class);
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
     public void  testarDeletarUsuarioPorIDCaminhoPositivo () throws Exception {
         Mockito.doNothing().when(usuarioService).deletarUsuario(Mockito.anyString());
 
