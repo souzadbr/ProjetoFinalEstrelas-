@@ -23,7 +23,7 @@ public class UsuarioService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
-    public Usuario salvarUsuario(Usuario novoUsuario) {
+    public Usuario salvarUsuario(Usuario novoUsuario) throws Exception {
 
         String senhaEscondida = bCryptPasswordEncoder.encode(novoUsuario.getSenha());
 
@@ -31,6 +31,9 @@ public class UsuarioService {
 
         if (verificarEmailExistente(novoUsuario.getEmail())) {
             throw new EmailJaCadastradoException();
+        }
+        if(validarEmailZup(novoUsuario.getEmail())){
+            throw new EmailNaoZupException();
         }
         if (verificarTelefoneExistente(novoUsuario.getTelefone())) {
             throw new TelefoneJaCadastradoException();
