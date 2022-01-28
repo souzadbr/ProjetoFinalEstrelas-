@@ -1,16 +1,14 @@
 package br.com.zup.CouchZupper.usuario;
 
 import br.com.zup.CouchZupper.enums.Estado;
-import br.com.zup.CouchZupper.enums.Genero;
 import br.com.zup.CouchZupper.exception.EmailJaCadastradoException;
+import br.com.zup.CouchZupper.exception.EmailNaoZupException;
 import br.com.zup.CouchZupper.exception.TelefoneJaCadastradoException;
 import br.com.zup.CouchZupper.exception.UsuarioNaoLocalizadoException;
-import br.com.zup.CouchZupper.usuario.dtos.UsuarioRequisicaoDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -23,7 +21,7 @@ public class UsuarioService {
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
 
-    public Usuario salvarUsuario(Usuario novoUsuario) {
+    public Usuario salvarUsuario(Usuario novoUsuario) throws Exception {
 
         String senhaEscondida = bCryptPasswordEncoder.encode(novoUsuario.getSenha());
 
@@ -31,6 +29,9 @@ public class UsuarioService {
 
         if (verificarEmailExistente(novoUsuario.getEmail())) {
             throw new EmailJaCadastradoException();
+        }
+        if(validarEmail(novoUsuario.getEmail())){
+            throw new EmailNaoZupException();
         }
         if (verificarTelefoneExistente(novoUsuario.getTelefone())) {
             throw new TelefoneJaCadastradoException();
@@ -107,6 +108,13 @@ public class UsuarioService {
         } else {
             usuarioRepository.deleteById(id);
         }
+    }
+
+    public boolean validarEmail(String email)throws Exception{
+       if(!email.contains("@zup.com.br")){
+           throw new EmailNaoZupException();
+       }
+        return false;
     }
 
 }
