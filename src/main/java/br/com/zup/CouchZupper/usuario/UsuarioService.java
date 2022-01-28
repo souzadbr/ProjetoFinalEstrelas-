@@ -30,7 +30,7 @@ public class UsuarioService {
         if (verificarEmailExistente(novoUsuario.getEmail())) {
             throw new EmailJaCadastradoException();
         }
-        if(validarEmail(novoUsuario.getEmail())){
+        if(validarEmailZup(novoUsuario.getEmail())){
             throw new EmailNaoZupException();
         }
         if (verificarTelefoneExistente(novoUsuario.getTelefone())) {
@@ -110,7 +110,7 @@ public class UsuarioService {
         }
     }
 
-    public boolean validarEmail(String email)throws Exception{
+    public boolean validarEmailZup(String email)throws Exception{
        if(!email.contains("@zup.com.br")){
            throw new EmailNaoZupException();
        }
