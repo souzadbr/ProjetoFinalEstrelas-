@@ -52,7 +52,7 @@ public class UsuarioServiceTest {
     }
 
     @Test
-    public void testarSalvarUsuarioCaminhoPositivo(){
+    public void testarSalvarUsuarioCaminhoPositivo() throws Exception {
         Mockito.when(usuarioRepository.save(Mockito.any(Usuario.class))).thenReturn(usuario);
         Mockito.when(usuarioService.verificarEmailExistente(Mockito.anyString())).thenReturn(false);
         Mockito.when(usuarioService.verificarTelefoneExistente(Mockito.anyString())).thenReturn(false);
