@@ -62,9 +62,9 @@ public class UsuarioController {
     @PutMapping ("/login/{id}")
     public void atualizarDadosDeLoginUsuario(@PathVariable String id,
                                              @RequestBody LoginDTO loginDTO){
-        //UsuarioAtualizarDadosDTO usuarioAtualizarDadosDTO;
         Usuario usuario = modelMapper.map(loginDTO, Usuario.class);
         usuarioService.atualizarDadosLoginUsuario(id, usuario);
+
     }
 
     @DeleteMapping("/{id}")

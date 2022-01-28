@@ -26,6 +26,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.util.UriComponentsBuilder;
 
 import java.io.UnsupportedEncodingException;
@@ -110,7 +111,7 @@ public class UsuarioControllerTest {
         ResultActions resultadoEsperado = realizarRequisicao(usuario, 201, "POST","");
 
         String jsonResposta = resultadoEsperado.andReturn().getResponse().getContentAsString();
-
+        Mockito.verify(usuarioService, Mockito.times(1)).salvarUsuario(Mockito.any(Usuario.class));
     }
 
     @Test
@@ -150,7 +151,7 @@ public class UsuarioControllerTest {
     @WithMockUser ("user@user.com")
     public void testarAtualizarDadosUsuarioCaminhoPositivo() throws Exception {
         Mockito.when(usuarioService.buscarUsuarioPorId(Mockito.anyString())).thenReturn(usuario);
-        //Mockito.when(usuarioService.atualizarDadosUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
+        Mockito.when(usuarioService.atualizarDadosUsuario(Mockito.anyString(),Mockito.any(Usuario.class))).thenReturn(usuario);
 
         ResultActions resultadoEsperado = realizarRequisicao(usuario, 200, "PUT", "/dados/000aaa");
 
@@ -161,9 +162,31 @@ public class UsuarioControllerTest {
     @Test
     @WithMockUser ("user@user.com")
     public void testarAtualizarDadosUsuarioCaminhoNegativo() throws Exception {
-        Mockito.doThrow(UsuarioNaoLocalizadoException.class).when(usuarioService).buscarUsuarioPorId(Mockito.anyString());
+        Mockito.doThrow(UsuarioNaoLocalizadoException.class).when(usuarioService).atualizarDadosUsuario(
+                Mockito.anyString(), Mockito.any(Usuario.class));
 
         ResultActions resultadoEsperado = realizarRequisicao(usuario, 404, "PUT", "/dados/teste");
+
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void testarAtualizarDadosLoginUsuarioCaminhoPositivo() throws Exception {
+        Mockito.when(usuarioService.buscarUsuarioPorId(Mockito.anyString())).thenReturn(usuario);
+        Mockito.when(usuarioService.atualizarDadosLoginUsuario(Mockito.anyString(), Mockito.any(Usuario.class)))
+                .thenReturn(usuario);
+        ResultActions resultadoEsperado = realizarRequisicao(usuario, 200, "PUT", "/login/000aaa");
+
+        String jsonResposta = resultadoEsperado.andReturn().getResponse().getContentAsString();
+    }
+
+    @Test
+    @WithMockUser ("user@user.com")
+    public void testarAtualizarDadosLoginUsuarioCaminhoNegativo() throws Exception {
+        Mockito.doThrow(UsuarioNaoLocalizadoException.class).when(usuarioService).atualizarDadosLoginUsuario(
+                Mockito.anyString(), Mockito.any(Usuario.class));
+
+        ResultActions resultadoEsperado = realizarRequisicao(usuario, 404, "PUT", "/login/teste");
 
     }
 
