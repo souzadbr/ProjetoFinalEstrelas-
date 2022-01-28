@@ -15,6 +15,7 @@ import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.util.ArrayList;
 import java.util.Iterator;
@@ -28,6 +29,8 @@ public class UsuarioServiceTest {
 
     @Autowired
     private UsuarioService usuarioService;
+    @MockBean
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     private Usuario usuario, usuarioAAtualizar;
     private Preferencia preferencia;
@@ -147,6 +150,19 @@ public class UsuarioServiceTest {
                 });
 
         Mockito.verify(usuarioRepository, Mockito.times(0)).save(Mockito.any(Usuario.class));
+
+    }
+    @Test
+    public void testarAtualizarLoginUsuarioCaminhoPositivo() {
+        Mockito.when(usuarioRepository.findById(Mockito.anyString())).thenReturn(Optional.of(usuario));
+        Mockito.when(usuarioRepository.save(Mockito.any(Usuario.class))).thenReturn(usuario);
+        Mockito.when(bCryptPasswordEncoder.encode(Mockito.anyString())).thenReturn(usuario.getSenha());
+        usuarioService.atualizarDadosLoginUsuario(Mockito.anyString(), usuarioAAtualizar);
+
+        Assertions.assertEquals(usuario.getEmail(), usuarioAAtualizar.getEmail());
+        //Assertions.assertEquals(usuario.getSenha(), usuarioAAtualizar.getSenha());
+
+        Mockito.verify(usuarioRepository, Mockito.times(1)).save(Mockito.any(Usuario.class));
 
     }
 
