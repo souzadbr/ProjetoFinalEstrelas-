@@ -167,6 +167,18 @@ public class UsuarioServiceTest {
     }
 
     @Test
+    public void testarAtualizarDadosLoginUsuarioCaminhoNegativo(){
+        Mockito.when(usuarioRepository.findById(Mockito.anyString())).thenReturn(Optional.empty());
+
+        UsuarioNaoLocalizadoException exception = Assertions.assertThrows(UsuarioNaoLocalizadoException.class,
+                () -> {usuarioService.atualizarDadosLoginUsuario("teste", Mockito.any(Usuario.class));
+                });
+
+        Mockito.verify(usuarioRepository, Mockito.times(0)).save(Mockito.any(Usuario.class));
+
+    }
+
+    @Test
     public void testarDeletarUsuarioCaminhoPositivo() {
         Mockito.when(usuarioRepository.existsById(Mockito.anyString())).thenReturn(true);
         usuarioService.deletarUsuario("000aaa");
