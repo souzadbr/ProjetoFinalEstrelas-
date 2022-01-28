@@ -109,4 +109,11 @@ public class UsuarioService {
         }
     }
 
+    public boolean validarEmailZup(String email)throws Exception{
+        if(!email.contains("@zup.com.br")){
+            throw new EmailNaoZupException();
+        }
+        return false;
+    }
+
 }
