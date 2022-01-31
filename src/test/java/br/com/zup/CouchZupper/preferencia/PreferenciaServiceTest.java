@@ -13,6 +13,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.ResultActions;
 
+import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
@@ -73,6 +74,19 @@ public class PreferenciaServiceTest {
         Mockito.verify(preferenciaRepository, Mockito.times(0))
                 .save(Mockito.any(Preferencia.class));
 
+    }
+
+    @Test
+    public void testarListarPreferenciasCaminhoFeliz() {
+        List<Preferencia> preferenciaLista = Arrays.asList(preferencia);
+
+        Mockito.when(preferenciaRepository.findAll()).thenReturn(preferenciaLista);
+
+        List<Preferencia> preferenciaResposta = preferenciaService.listarPreferencias();
+
+        Assertions.assertNotNull(preferenciaResposta);
+
+        Mockito.verify(preferenciaRepository, Mockito.times(1)).findAll();
     }
 
 }
