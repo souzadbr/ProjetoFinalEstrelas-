@@ -38,10 +38,12 @@ public class UsuarioController {
                                                   @RequestParam (required = false) TipoDePet tipoDePet){
         List<ResumoCadastroDTO> listaResumo = new ArrayList<>();
         for (Usuario usuario: usuarioService.buscarUsuarios(estado, genero, temPet, fumante, tipoDePet)){
+            if (usuario.getPreferencia().isDisponivelParaReceberUmZupper()){
                 ResumoCadastroDTO resumo = modelMapper.map(usuario, ResumoCadastroDTO.class);
                 listaResumo.add(resumo);
             }
 
+        }
         return listaResumo;
     }
     @GetMapping("/{id}")
