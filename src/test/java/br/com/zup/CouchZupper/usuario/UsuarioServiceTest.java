@@ -4,6 +4,7 @@ import br.com.zup.CouchZupper.enums.Estado;
 import br.com.zup.CouchZupper.enums.Genero;
 import br.com.zup.CouchZupper.enums.TipoDePet;
 import br.com.zup.CouchZupper.exception.EmailJaCadastradoException;
+import br.com.zup.CouchZupper.exception.EmailNaoZupException;
 import br.com.zup.CouchZupper.exception.TelefoneJaCadastradoException;
 import br.com.zup.CouchZupper.exception.UsuarioNaoLocalizadoException;
 import br.com.zup.CouchZupper.preferencia.Preferencia;
@@ -11,6 +12,7 @@ import org.assertj.core.util.Arrays;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -21,6 +23,8 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
+
+import static org.mockito.ArgumentMatchers.*;
 
 @SpringBootTest
 public class UsuarioServiceTest {
@@ -61,7 +65,7 @@ public class UsuarioServiceTest {
     }
 
     @Test
-    public void testarBuscarUsuariosPorIdCaminhoPositivo(){
+    public void testarBuscarUsuariosPorIdCaminhoPositivo() {
         Mockito.when(usuarioRepository.findById(Mockito.anyString())).thenReturn(Optional.of(usuario));
         Usuario usuarioOptional = usuarioService.buscarUsuarioPorId(Mockito.anyString());
 
@@ -69,11 +73,12 @@ public class UsuarioServiceTest {
     }
 
     @Test
-    public void testarBuscarUsuariosPorIdCaminhoNegativo(){
+    public void testarBuscarUsuariosPorIdCaminhoNegativo() {
         Mockito.when(usuarioRepository.findById(Mockito.anyString())).thenReturn(Optional.empty());
         UsuarioNaoLocalizadoException exception = Assertions.assertThrows(UsuarioNaoLocalizadoException.class,
-                () -> {usuarioService.buscarUsuarioPorId("teste");
-        });
+                () -> {
+                    usuarioService.buscarUsuarioPorId("teste");
+                });
     }
 
     @Test
@@ -142,16 +147,18 @@ public class UsuarioServiceTest {
     }
 
     @Test
-    public void testarAtualizarDadosUsuarioCaminhoNegativo(){
+    public void testarAtualizarDadosUsuarioCaminhoNegativo() {
         Mockito.when(usuarioRepository.findById(Mockito.anyString())).thenReturn(Optional.empty());
 
         UsuarioNaoLocalizadoException exception = Assertions.assertThrows(UsuarioNaoLocalizadoException.class,
-                () -> {usuarioService.atualizarDadosUsuario("teste", Mockito.any(Usuario.class));
+                () -> {
+                    usuarioService.atualizarDadosUsuario("teste", Mockito.any(Usuario.class));
                 });
 
         Mockito.verify(usuarioRepository, Mockito.times(0)).save(Mockito.any(Usuario.class));
 
     }
+
     @Test
     public void testarAtualizarLoginUsuarioCaminhoPositivo() {
         Mockito.when(usuarioRepository.findById(Mockito.anyString())).thenReturn(Optional.of(usuario));
@@ -167,11 +174,12 @@ public class UsuarioServiceTest {
     }
 
     @Test
-    public void testarAtualizarDadosLoginUsuarioCaminhoNegativo(){
+    public void testarAtualizarDadosLoginUsuarioCaminhoNegativo() {
         Mockito.when(usuarioRepository.findById(Mockito.anyString())).thenReturn(Optional.empty());
 
         UsuarioNaoLocalizadoException exception = Assertions.assertThrows(UsuarioNaoLocalizadoException.class,
-                () -> {usuarioService.atualizarDadosLoginUsuario("teste", Mockito.any(Usuario.class));
+                () -> {
+                    usuarioService.atualizarDadosLoginUsuario("teste", Mockito.any(Usuario.class));
                 });
 
         Mockito.verify(usuarioRepository, Mockito.times(0)).save(Mockito.any(Usuario.class));
@@ -194,6 +202,13 @@ public class UsuarioServiceTest {
         UsuarioNaoLocalizadoException exception = Assertions.assertThrows(UsuarioNaoLocalizadoException.class, () -> {
             usuarioService.deletarUsuario("teste");
         });
-
     }
+
+    @Test
+    public void testarEmailValidoZupCaminhoNegativo() throws Exception {
+        EmailNaoZupException exception = Assertions.assertThrows(EmailNaoZupException.class, () -> {
+            usuarioService.validarEmailZup("teste@teste");
+        });
+    }
+
 }
