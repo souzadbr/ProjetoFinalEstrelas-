@@ -44,7 +44,7 @@ public class UsuarioServiceTest {
         usuario = new Usuario();
         usuario.setId("000aaa");
         usuario.setNome("Usuario Teste");
-        usuario.setEmail("usuario@usuario.com");
+        usuario.setEmail("usuario@zup.com.br");
         usuario.setIdade(23);
         usuario.setTelefone("79999999999");
         usuario.setEstado(Estado.SERGIPE);
