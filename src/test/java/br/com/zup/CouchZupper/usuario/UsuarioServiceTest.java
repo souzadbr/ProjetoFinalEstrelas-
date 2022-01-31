@@ -211,4 +211,9 @@ public class UsuarioServiceTest {
         });
     }
 
+    @Test
+    public void testarEmailValidoZupCaminhoPosito() throws Exception {
+        usuarioService.validarEmailZup("teste@zup.com.br");
+    }
+
 }
