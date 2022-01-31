@@ -1,6 +1,7 @@
 package br.com.zup.CouchZupper.preferencia;
 
 import br.com.zup.CouchZupper.enums.TipoDePet;
+import br.com.zup.CouchZupper.exception.PreferenciaNaoLocalizadaException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -46,4 +47,16 @@ public class PreferenciaServiceTest {
         Assertions.assertEquals(preferencia.getId(), buscarPreferenciaPorId.getId());
 
     }
+
+    @Test
+    public void testarBuscarPreferenciaPorIdCaminhoTriste() {
+        Mockito.when(preferenciaRepository.findById(Mockito.anyInt())).thenReturn(Optional.empty());
+        PreferenciaNaoLocalizadaException preferenciaNaoLocalizadaException =
+                Assertions.assertThrows(PreferenciaNaoLocalizadaException.class, () ->
+                        {
+                            preferenciaService.buscarPreferenciaPorId(77879988);
+                        }
+                );
+    }
+
 }
