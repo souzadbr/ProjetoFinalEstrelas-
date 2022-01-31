@@ -2,6 +2,7 @@ package br.com.zup.CouchZupper.usuario;
 
 import br.com.zup.CouchZupper.enums.Estado;
 import br.com.zup.CouchZupper.enums.Genero;
+import br.com.zup.CouchZupper.enums.TipoDePet;
 import br.com.zup.CouchZupper.exception.EmailJaCadastradoException;
 import br.com.zup.CouchZupper.exception.EmailNaoZupException;
 import br.com.zup.CouchZupper.exception.TelefoneJaCadastradoException;
@@ -56,12 +57,21 @@ public class UsuarioService {
         return (List<Usuario>) listaUsuarios;
     }
 
-    public List<Usuario> buscarUsuarios(Estado estado, Genero genero) {
+    public List<Usuario> buscarUsuarios(Estado estado, Genero genero, Boolean temPet, Boolean fumante, TipoDePet tipoDePet) {
         if (estado != null) {
             return usuarioRepository.findAllByEstado(estado);
         }
         if (genero != null) {
             return usuarioRepository.findAllByGenero(genero);
+        }
+        if (temPet != null){
+            return usuarioRepository.findAllByPreferenciaTemPet(temPet);
+        }
+        if (fumante != null){
+            return usuarioRepository.findAllByPreferenciaFumante(fumante);
+        }
+        if (tipoDePet != null){
+            return usuarioRepository.findAllByPreferenciaTipoDePet(tipoDePet);
         }
 
         return listarUsuarios();
