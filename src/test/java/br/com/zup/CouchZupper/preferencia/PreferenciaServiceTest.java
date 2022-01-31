@@ -5,6 +5,7 @@ import br.com.zup.CouchZupper.exception.PreferenciaNaoLocalizadaException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.mockito.junit.MockitoRule;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,7 +27,7 @@ public class PreferenciaServiceTest {
     @Autowired
     private PreferenciaService preferenciaService;
 
-    private Preferencia preferencia;
+    private Preferencia preferencia, preferenciaAtualizada;
 
     @BeforeEach
     public void setup() {
@@ -34,9 +35,11 @@ public class PreferenciaServiceTest {
         preferencia.setId(1);
         preferencia.setTemPet(true);
         preferencia.setTipoDePet(TipoDePet.ANIMAIS_SILVESTRES);
-        preferencia.setFumante(false);
+        preferencia.setFumante(true);
         preferencia.setDisponivelParaReceberUmZupper(true);
         preferencia.setConteAlgoQueNaoPerguntamos("Texto de Teste");
+
+        preferenciaAtualizada = new Preferencia();
 
     }
 
@@ -57,6 +60,19 @@ public class PreferenciaServiceTest {
                             preferenciaService.buscarPreferenciaPorId(77879988);
                         }
                 );
+    }
+
+    @Test
+    public void testarAtualizarPreferenciasCaminhoTriste() {
+        Mockito.when(preferenciaRepository.findById(Mockito.anyInt())).thenReturn(Optional.empty());
+
+        PreferenciaNaoLocalizadaException exception =
+                Assertions.assertThrows(PreferenciaNaoLocalizadaException.class, () -> {
+                    preferenciaService.atualizarPreferencias(1236985, Mockito.any(Preferencia.class));
+                });
+        Mockito.verify(preferenciaRepository, Mockito.times(0))
+                .save(Mockito.any(Preferencia.class));
+
     }
 
 }
