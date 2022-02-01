@@ -2,6 +2,7 @@ package br.com.zup.CouchZupper.preferencia;
 
 import br.com.zup.CouchZupper.enums.TipoDePet;
 import br.com.zup.CouchZupper.exception.PreferenciaNaoLocalizadaException;
+import br.com.zup.CouchZupper.usuario.Usuario;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -14,10 +15,12 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.web.servlet.ResultActions;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 @SpringBootTest
 public class PreferenciaServiceTest {
@@ -74,6 +77,16 @@ public class PreferenciaServiceTest {
         Mockito.verify(preferenciaRepository, Mockito.times(0))
                 .save(Mockito.any(Preferencia.class));
 
+    }
+
+    @Test
+    public void testarAtualizarPreferenciasCaminhoFeliz() {
+        Mockito.when(preferenciaRepository.save(Mockito.any())).thenReturn(preferencia);
+        Mockito.when(preferenciaRepository.findById(Mockito.anyInt())).thenReturn(Optional.of(preferencia));
+
+        preferenciaService.atualizarPreferencias(Mockito.anyInt(), preferencia);
+
+        Mockito.verify(preferenciaRepository, Mockito.times(1)).save(Mockito.any());
     }
 
     @Test
