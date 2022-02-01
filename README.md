@@ -62,7 +62,7 @@ jwt.milissegundos= tempo de validade do token**
 
 **Método:** POST    
 **EndPoint:** /usuario  
-**Corpo:**
+- **Corpo:**
 
       {
       "nome": "Jane Doe",
@@ -87,7 +87,10 @@ jwt.milissegundos= tempo de validade do token**
 ## Login de Usuário
 **Método:** POST  
 **EndPoint:** /login
-**Corpo:**
+ - **Corpo:**
+
+
+
 
     {
       "email": "jane@zup.com.br",
@@ -104,7 +107,7 @@ jwt.milissegundos= tempo de validade do token**
 **Método:** GET  
 **EndPoint:** /usuario  
 **Necessário autenticação de usuário**
-**Resposta** 200
+- **Resposta** 200
 
 ## Listar Usuário por ID
 **Método:** GET  
@@ -138,6 +141,38 @@ jwt.milissegundos= tempo de validade do token**
 
 - **Resposta** 200
 
+## Listar Usuários por TEM PET
+**Método:** GET
+
+- **EndPoint:** /usuario?temPet=FALSE
+- **EndPoint:** /usuario?temPet=TRUE
+
+**Necessário autenticação de usuário**
+
+- **Resposta** 200
+
+## Listar Usuários por TIPO DE PET
+**Método:** GET
+
+- **EndPoint:** /usuario?tipoDePet=CACHORRO
+- **EndPoint:** /usuario?tipoDePet=GATO
+- **EndPoint:** /usuario?tipoDePet=PASSAROS
+- **EndPoint:** /usuario?tipoDePet=ANIMAIS_SILVESTRES
+- **EndPoint:** /usuario?tipoDePet=OUTRO
+
+**Necessário autenticação de usuário**
+
+- **Resposta** 200
+
+## Listar Usuários por FUMANTE
+**Método:** GET
+
+- **EndPoint:** /usuario?fumante=TRUE
+- **EndPoint:** /usuario?fumante=FALSE
+
+**Necessário autenticação de usuário**
+
+- **Resposta** 200
 
 
 ## Atualizar Dados do Usuário
