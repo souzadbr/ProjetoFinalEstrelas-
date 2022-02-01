@@ -76,4 +76,11 @@ public class ControllerAdvisor {
         return new MensagemDeErro("E-mail inválido, use um email da Zup!");
     }
 
+    @ExceptionHandler(MenorDeIdadeException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public MensagemDeErro manipularIdadeDoZupper(MenorDeIdadeException exception){
+        return new MensagemDeErro("Menos de 18 anos não pode se cadastrar!");
+    }
+
+
 }
