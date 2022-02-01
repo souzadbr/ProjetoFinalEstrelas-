@@ -31,13 +31,14 @@ public class UsuarioController {
     }
 
     @GetMapping
-    public List<ResumoCadastroDTO> buscarUsuarios(@RequestParam(required = false) @Valid Estado estado,
+    public List<ResumoCadastroDTO> buscarUsuarios(@RequestParam(required = false) @Valid String uf,
+                                                  @RequestParam(required = false)String localidade,
                                                   @RequestParam(required = false) Genero genero,
                                                   @RequestParam (required = false) Boolean temPet,
                                                   @RequestParam (required = false) Boolean fumante,
                                                   @RequestParam (required = false) TipoDePet tipoDePet){
         List<ResumoCadastroDTO> listaResumo = new ArrayList<>();
-        for (Usuario usuario: usuarioService.buscarUsuarios(estado, genero, temPet, fumante, tipoDePet)){
+        for (Usuario usuario: usuarioService.buscarUsuarios(uf, localidade, genero, temPet, fumante, tipoDePet)){
             if (usuario.getPreferencia().isDisponivelParaReceberUmZupper()){
                 ResumoCadastroDTO resumo = modelMapper.map(usuario, ResumoCadastroDTO.class);
                 listaResumo.add(resumo);
@@ -51,8 +52,6 @@ public class UsuarioController {
         UsuarioRespostaDTO usuarioRespostaDTO = modelMapper.map(usuarioService.buscarUsuarioPorId(id), UsuarioRespostaDTO.class);
         return usuarioRespostaDTO;
     }
-
-    //fazer 3 puts, 1 pra atualizar os dados , 1 para atualizar email e senha e outro as preferências
 
     @PutMapping("/dados/{id}")
     public UsuarioAtualizarDadosDTO atualizarDadosUsuario(@PathVariable String id, @Valid
