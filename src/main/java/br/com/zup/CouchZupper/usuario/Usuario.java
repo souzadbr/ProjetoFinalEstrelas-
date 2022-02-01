@@ -30,9 +30,12 @@ public class Usuario {
     private int idade;
     @Column(nullable = false, unique = true)
     private String telefone;
+   @Column(nullable = false)
+    private String uf;
     @Column(nullable = false)
-    @Enumerated (EnumType.STRING)
-    private Estado estado;
+    private String cep;
+    @Column(nullable = false)
+    private String localidade;
     @Column(nullable = false)
     @Enumerated (EnumType.STRING)
     private Genero genero;
