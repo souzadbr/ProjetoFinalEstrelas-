@@ -1,6 +1,7 @@
 package br.com.zup.CouchZupper.usuario.dtos;
 
 import br.com.zup.CouchZupper.enums.Estado;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -27,4 +28,10 @@ public class ResumoCadastroDTO {
     private int idade;
     private String uf;
     private String localidade;
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR", timezone = "Brazil/East")
+    private LocalDate dataNascimento;
+    @Valid
+    @NotNull(message = "{validacao.estado.not-null}")
+    private Estado estado;
+
 }
