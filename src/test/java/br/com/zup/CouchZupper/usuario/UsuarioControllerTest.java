@@ -13,9 +13,9 @@ import br.com.zup.CouchZupper.usuario.dtos.UsuarioAtualizarDadosDTO;
 import br.com.zup.CouchZupper.usuario.dtos.UsuarioRequisicaoDTO;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.Mock;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -26,11 +26,11 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.result.MockMvcResultMatchers;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import java.io.UnsupportedEncodingException;
+
 import java.net.URI;
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.List;
 
@@ -53,7 +53,7 @@ public class UsuarioControllerTest {
 
     @BeforeEach
     private void setup() {
-        objectMapper = new ObjectMapper();
+        objectMapper = new ObjectMapper().registerModule(new JavaTimeModule());
 
         usuario = new Usuario();
         usuario.setId("000aaa");
@@ -61,7 +61,7 @@ public class UsuarioControllerTest {
         usuario.setEmail("debora@gmail.com");
         usuario.setUf("SE");
         usuario.setGenero(Genero.FEMININO);
-        usuario.setIdade(18);
+        usuario.setDataNascimento(LocalDate.of(2010, 3, 7));
         usuario.setTelefone("920026789");
         usuario.setSenha("minhasenha");
 
@@ -76,7 +76,7 @@ public class UsuarioControllerTest {
         usuarioRequisicaoDTO = new UsuarioRequisicaoDTO();
         usuarioRequisicaoDTO.setNome("Usuario Teste");
         usuarioRequisicaoDTO.setEmail("usuario@usuario.com");
-        usuarioRequisicaoDTO.setIdade(23);
+        usuarioRequisicaoDTO.setDataNascimento(LocalDate.of(2010, 3, 7));
         usuarioRequisicaoDTO.setTelefone("79999999999");
        // usuarioRequisicaoDTO.setEstado(Estado.SERGIPE)
         usuarioRequisicaoDTO.setGenero(Genero.OUTRO);
@@ -247,18 +247,6 @@ public class UsuarioControllerTest {
     public void testeRotaParaCadastrarUsuarioValidacaoNomeSize()throws Exception{
         Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
         usuario.setNome("E");
-        String json = objectMapper.writeValueAsString(usuario);
-
-        ResultActions respostaDaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
-                        .contentType(MediaType.APPLICATION_JSON).content(json))
-                .andExpect(MockMvcResultMatchers.status().is(422));
-    }
-
-    @Test
-    @WithMockUser ("user@user.com")
-    public void testeRotaParaCadastrarUsuarioValidacaoIdadeMinima()throws Exception{
-        Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
-        usuario.setIdade(12);
         String json = objectMapper.writeValueAsString(usuario);
 
         ResultActions respostaDaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
