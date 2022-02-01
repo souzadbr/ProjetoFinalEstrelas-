@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor @AllArgsConstructor
 public class UsuarioRespostaDTO {
     private String nome;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR", timezone = "Brazil/East")
+    @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDate dataNascimento;
     private int idade;
     private String telefone;
