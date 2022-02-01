@@ -29,6 +29,7 @@ public class ResumoCadastroDTO {
     private String uf;
     private String localidade;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR", timezone = "Brazil/East")
+    @JsonFormat( pattern = "yyyy/MM/dd")
     private LocalDate dataNascimento;
     @Valid
     @NotNull(message = "{validacao.estado.not-null}")
