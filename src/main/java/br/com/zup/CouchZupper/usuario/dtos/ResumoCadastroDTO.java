@@ -25,7 +25,6 @@ public class ResumoCadastroDTO {
     private String nome;
     @DecimalMin(value = "18",message = "{validacao.idade.decimal-min}")
     private int idade;
-    @Valid
-    @NotNull(message = "{validacao.estado.not-null}")
-    private Estado estado;
+    private String uf;
+    private String localidade;
 }
