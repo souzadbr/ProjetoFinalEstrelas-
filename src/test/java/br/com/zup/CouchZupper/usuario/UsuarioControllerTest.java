@@ -59,7 +59,7 @@ public class UsuarioControllerTest {
         usuario.setId("000aaa");
         usuario.setNome("Debora Rodrigues");
         usuario.setEmail("debora@gmail.com");
-        usuario.setEstado(Estado.ACRE);
+        usuario.setUf("SE");
         usuario.setGenero(Genero.FEMININO);
         usuario.setIdade(18);
         usuario.setTelefone("920026789");
@@ -78,7 +78,7 @@ public class UsuarioControllerTest {
         usuarioRequisicaoDTO.setEmail("usuario@usuario.com");
         usuarioRequisicaoDTO.setIdade(23);
         usuarioRequisicaoDTO.setTelefone("79999999999");
-        usuarioRequisicaoDTO.setEstado(Estado.SERGIPE);
+       // usuarioRequisicaoDTO.setEstado(Estado.SERGIPE)
         usuarioRequisicaoDTO.setGenero(Genero.OUTRO);
         usuarioRequisicaoDTO.setSenha("senhateste");
 
@@ -118,7 +118,8 @@ public class UsuarioControllerTest {
     @WithMockUser ("user@user.com")
     public void testarBuscarUsuarios () throws Exception {
         Mockito.when(usuarioService.buscarUsuarios(
-                Mockito.any(Estado.class),
+                Mockito.anyString(),
+                Mockito.anyString(),
                 Mockito.any(Genero.class),
                 Mockito.anyBoolean(),
                 Mockito.anyBoolean(),
@@ -341,7 +342,7 @@ public class UsuarioControllerTest {
     @WithMockUser ("user@user.com")
     public void testeRotaParaCadastrarUsuarioValidacaoEstadoNull()throws Exception{
         Mockito.when(usuarioService.salvarUsuario(Mockito.any(Usuario.class))).thenReturn(usuario);
-        usuario.setEstado(null);
+       // usuario.setEstado(null);
         String json = objectMapper.writeValueAsString(usuario);
 
         ResultActions respostaDaRequisicao = mockMvc.perform(MockMvcRequestBuilders.post("/usuario")
