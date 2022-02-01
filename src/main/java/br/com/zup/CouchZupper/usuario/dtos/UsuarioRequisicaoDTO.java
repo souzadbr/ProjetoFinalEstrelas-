@@ -23,8 +23,8 @@ public class UsuarioRequisicaoDTO {
     @NotNull(message = "{validacao.nome.not-null}")
     @NotBlank(message = "{validacao.nome.not-blank}")
     private String nome;
-    private int idade;
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR", timezone = "Brazil/East")
+    @JsonFormat(pattern = "yyyy/MM/dd")
     private LocalDate dataNascimento;
     @NotNull(message = "{validacao.telefone.not-null}")
     @NotBlank(message = "{validacao.telefone.not-blank}")
