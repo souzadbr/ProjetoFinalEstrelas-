@@ -14,10 +14,11 @@ public class PreferenciaController {
     @Autowired
     private ModelMapper modelMapper;
 
-    @PutMapping ("/{id}")
+    @PutMapping("/{id}")
     public void atualizarPreferencia(@PathVariable int id,
-                                     @RequestBody PreferenciaEntradaDTO preferenciaEntradaDTO){
+                                     @RequestBody PreferenciaEntradaDTO preferenciaEntradaDTO) {
         Preferencia preferencia = modelMapper.map(preferenciaEntradaDTO, Preferencia.class);
         preferenciaService.atualizarPreferencias(id, preferencia);
     }
+
 }
