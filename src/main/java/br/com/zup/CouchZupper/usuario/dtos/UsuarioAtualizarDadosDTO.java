@@ -13,7 +13,6 @@ public class UsuarioAtualizarDadosDTO {
     private String nome;
     private int idade;
     private String telefone;
-    private Estado estado;
     private Genero genero;
 
 }

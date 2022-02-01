@@ -8,7 +8,10 @@ import br.com.zup.CouchZupper.exception.EmailNaoZupException;
 import br.com.zup.CouchZupper.exception.TelefoneJaCadastradoException;
 import br.com.zup.CouchZupper.exception.UsuarioNaoLocalizadoException;
 import br.com.zup.CouchZupper.usuario.dtos.UsuarioRequisicaoDTO;
+import br.com.zup.CouchZupper.viacep.Endereco;
+import br.com.zup.CouchZupper.viacep.EnderecoService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -21,8 +24,12 @@ public class UsuarioService {
 
     @Autowired
     private UsuarioRepository usuarioRepository;
+
     @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    private EnderecoService enderecoService;
 
 
     public Usuario salvarUsuario(Usuario novoUsuario) throws Exception {
@@ -39,8 +46,13 @@ public class UsuarioService {
         }
         if (verificarTelefoneExistente(novoUsuario.getTelefone())) {
             throw new TelefoneJaCadastradoException();
+        } else {
+            Endereco endereco = enderecoService.buscarEnderecoPorCep(novoUsuario.getCep());
+
+            novoUsuario.setUf(endereco.getUf());
+            novoUsuario.setLocalidade(endereco.getLocalidade());
+            return usuarioRepository.save(novoUsuario);
         }
-        return usuarioRepository.save(novoUsuario);
 
     }
 
@@ -57,9 +69,12 @@ public class UsuarioService {
         return (List<Usuario>) listaUsuarios;
     }
 
-    public List<Usuario> buscarUsuarios(Estado estado, Genero genero, Boolean temPet, Boolean fumante, TipoDePet tipoDePet) {
-        if (estado != null) {
-            return usuarioRepository.findAllByEstado(estado);
+    public List<Usuario> buscarUsuarios(String uf, String localidade, Genero genero, Boolean temPet, Boolean fumante, TipoDePet tipoDePet) {
+        if (uf != null) {
+            return usuarioRepository.findAllByUf(uf);
+        }
+        if (localidade != null) {
+            return usuarioRepository.findAllByLocalidade(localidade);
         }
         if (genero != null) {
             return usuarioRepository.findAllByGenero(genero);
@@ -91,9 +106,12 @@ public class UsuarioService {
 
         Usuario usuarioAAtualizar = buscarUsuarioPorId(id);
 
+        Endereco endereco = enderecoService.buscarEnderecoPorCep(usuario.getCep());
+
         usuarioAAtualizar.setNome(usuario.getNome());
         usuarioAAtualizar.setTelefone(usuario.getTelefone());
-        usuarioAAtualizar.setEstado(usuario.getEstado());
+        usuarioAAtualizar.setUf(endereco.getUf());
+        usuarioAAtualizar.setLocalidade(endereco.getLocalidade());
         usuarioAAtualizar.setGenero(usuario.getGenero());
 
         usuarioRepository.save(usuarioAAtualizar);
