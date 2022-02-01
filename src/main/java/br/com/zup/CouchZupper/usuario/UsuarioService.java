@@ -10,12 +10,14 @@ import br.com.zup.CouchZupper.exception.UsuarioNaoLocalizadoException;
 import br.com.zup.CouchZupper.usuario.dtos.UsuarioRequisicaoDTO;
 import br.com.zup.CouchZupper.viacep.Endereco;
 import br.com.zup.CouchZupper.viacep.EnderecoService;
+import br.com.zup.CouchZupper.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.Optional;
 
@@ -53,6 +55,11 @@ public class UsuarioService {
             novoUsuario.setLocalidade(endereco.getLocalidade());
             return usuarioRepository.save(novoUsuario);
         }
+
+        if(calcularIdade(novoUsuario.getDataNascimento())<18){
+            throw new MenorDeIdadeException();
+        }
+        return usuarioRepository.save(novoUsuario);
 
     }
 
@@ -146,6 +153,12 @@ public class UsuarioService {
             throw new EmailNaoZupException();
         }
         return false;
+    }
+
+    public int calcularIdade(LocalDate dataNascimento){
+        LocalDate dataAtual = LocalDate.now();
+        int idade = Period.between(dataNascimento, dataAtual).getYears();
+        return idade;
     }
 
 }

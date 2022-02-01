@@ -1,2 +1,4 @@
-package br.com.zup.CouchZupper.exception;public class MenorDeIdadeException {
+package br.com.zup.CouchZupper.exception;
+
+public class MenorDeIdadeException extends RuntimeException{
 }
