@@ -1,6 +1,5 @@
 package br.com.zup.CouchZupper.usuario.dtos;
 
-import br.com.zup.CouchZupper.enums.Estado;
 import br.com.zup.CouchZupper.enums.Genero;
 import br.com.zup.CouchZupper.preferencia.Preferencia;
 import com.fasterxml.jackson.annotation.JsonFormat;
