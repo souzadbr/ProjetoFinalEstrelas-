@@ -102,4 +102,15 @@ public class PreferenciaServiceTest {
         Mockito.verify(preferenciaRepository, Mockito.times(1)).findAll();
     }
 
+    @Test
+    public void testarBuscarPreferencias() {
+        List<Preferencia> preferenciaList = Arrays.asList(preferencia);
+
+        Mockito.when(preferenciaRepository.findAll()).thenReturn(preferenciaList);
+
+        List<Preferencia> preferenciasResposta = preferenciaService.buscarPreferencias(null, null, null, null, new Usuario());
+
+        Mockito.verify(preferenciaRepository, Mockito.times(1)).findAll();
+    }
+
 }
