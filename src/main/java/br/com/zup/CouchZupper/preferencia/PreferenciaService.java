@@ -24,11 +24,6 @@ public class PreferenciaService {
 
     }
 
-    public List<Preferencia> listarPreferencias() {
-        Iterable<Preferencia> listaPreferencias = preferenciaRepository.findAll();
-        return (List<Preferencia>) listaPreferencias;
-    }
-
     public Preferencia atualizarPreferencias(int id, Preferencia preferencia) {
         Preferencia preferenciaAtualizar = buscarPreferenciaPorId(id);
 
@@ -42,17 +37,4 @@ public class PreferenciaService {
         return preferenciaAtualizar;
     }
 
-    public List<Preferencia> buscarPreferencias(Boolean temPet, TipoDePet tipoDePet, Boolean fumante, Boolean disponivel, Usuario usuario) {
-        if (temPet != null) {
-            return preferenciaRepository.findAllByTemPet(temPet);
-        } else if (tipoDePet != null) {
-            return preferenciaRepository.findAllByTipoDePet(tipoDePet);
-        } else if (fumante != null) {
-            return preferenciaRepository.findAllByFumante(fumante);
-        } else if (disponivel != null) {
-            return preferenciaRepository.findAllByDisponivelParaReceberUmZupper(disponivel);
-        }
-
-        return listarPreferencias();
-    }
 }

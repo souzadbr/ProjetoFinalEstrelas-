@@ -89,17 +89,4 @@ public class PreferenciaServiceTest {
         Mockito.verify(preferenciaRepository, Mockito.times(1)).save(Mockito.any());
     }
 
-    @Test
-    public void testarListarPreferenciasCaminhoFeliz() {
-        List<Preferencia> preferenciaLista = Arrays.asList(preferencia);
-
-        Mockito.when(preferenciaRepository.findAll()).thenReturn(preferenciaLista);
-
-        List<Preferencia> preferenciaResposta = preferenciaService.listarPreferencias();
-
-        Assertions.assertNotNull(preferenciaResposta);
-
-        Mockito.verify(preferenciaRepository, Mockito.times(1)).findAll();
-    }
-
 }
