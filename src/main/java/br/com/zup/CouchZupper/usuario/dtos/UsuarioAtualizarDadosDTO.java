@@ -1,6 +1,5 @@
 package br.com.zup.CouchZupper.usuario.dtos;
 
-import br.com.zup.CouchZupper.enums.Estado;
 import br.com.zup.CouchZupper.enums.Genero;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
@@ -12,18 +11,26 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 import java.time.LocalDate;
 
-@Getter @Setter
-@NoArgsConstructor @AllArgsConstructor
+@Getter
+@Setter
+@NoArgsConstructor
+@AllArgsConstructor
 public class UsuarioAtualizarDadosDTO {
     private String nome;
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
-    @JsonFormat(  shape = JsonFormat.Shape.STRING,pattern = "yyyy/MM/dd")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
     private LocalDate dataNascimento;
-    private int idade;
+    @Size(min = 8, max = 8, message = "{validacao.cep.size}")
+    private String cep;
     private String telefone;
+    @Valid
+    @NotNull(message = "{validacao.genero.not-null}")
     private Genero genero;
 
 }
