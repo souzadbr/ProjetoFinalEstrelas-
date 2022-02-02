@@ -218,4 +218,10 @@ public class UsuarioServiceTest {
         usuarioService.validarEmailZup("teste@zup.com.br");
     }
 
+    @Test
+    public void testarCalculoDeIdade(){
+        usuarioService.calcularIdade(LocalDate.of(1992,4,29));
+    }
+
+
 }
