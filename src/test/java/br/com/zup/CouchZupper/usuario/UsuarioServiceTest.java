@@ -3,12 +3,10 @@ package br.com.zup.CouchZupper.usuario;
 import br.com.zup.CouchZupper.enums.Estado;
 import br.com.zup.CouchZupper.enums.Genero;
 import br.com.zup.CouchZupper.enums.TipoDePet;
-import br.com.zup.CouchZupper.exception.EmailJaCadastradoException;
-import br.com.zup.CouchZupper.exception.EmailNaoZupException;
-import br.com.zup.CouchZupper.exception.TelefoneJaCadastradoException;
-import br.com.zup.CouchZupper.exception.UsuarioNaoLocalizadoException;
+import br.com.zup.CouchZupper.exception.*;
 import br.com.zup.CouchZupper.preferencia.Preferencia;
 import org.assertj.core.util.Arrays;
+import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,6 +18,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
+import java.time.Period;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -46,7 +45,7 @@ public class UsuarioServiceTest {
         usuario.setId("000aaa");
         usuario.setNome("Usuario Teste");
         usuario.setEmail("usuario@zup.com.br");
-        usuario.setDataNascimento(LocalDate.of(2010, 3, 7));
+        usuario.setDataNascimento(LocalDate.of(2000, 3, 7));
         usuario.setTelefone("79999999999");
         //usuario.setEstado(Estado.SERGIPE);
         usuario.setUf("SE");
@@ -218,4 +217,20 @@ public class UsuarioServiceTest {
         usuarioService.validarEmailZup("teste@zup.com.br");
     }
 
+
+    @Test
+    public void testarCalculoDeIdade(){
+        int idade = usuarioService.calcularIdade(usuario.getDataNascimento());
+        Assert.assertEquals(idade,21);
+
+    }
+
+    @Test
+    public void testarIdadeMinimaDeCadastro() throws Exception {
+        usuario.setDataNascimento(LocalDate.of(2020,02,01));
+
+        MenorDeIdadeException exception = Assertions.assertThrows(MenorDeIdadeException.class, () -> {
+            usuarioService.salvarUsuario(usuario);
+        });
+    }
 }
