@@ -19,6 +19,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
@@ -45,7 +46,7 @@ public class UsuarioServiceTest {
         usuario.setId("000aaa");
         usuario.setNome("Usuario Teste");
         usuario.setEmail("usuario@zup.com.br");
-        usuario.setIdade(23);
+        usuario.setDataNascimento(LocalDate.of(2010, 3, 7));
         usuario.setTelefone("79999999999");
         //usuario.setEstado(Estado.SERGIPE);
         usuario.setUf("SE");

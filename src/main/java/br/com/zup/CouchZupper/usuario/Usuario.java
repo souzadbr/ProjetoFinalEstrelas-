@@ -10,6 +10,8 @@ import org.hibernate.annotations.GenericGenerator;
 import br.com.zup.CouchZupper.preferencia.Preferencia;
 
 import javax.persistence.*;
+import java.time.LocalDate;
+
 @Getter
 @Setter
 @AllArgsConstructor
@@ -27,7 +29,7 @@ public class Usuario {
     @Column(nullable = false, unique = true)
     private String email;
     @Column(nullable = false)
-    private int idade;
+    private LocalDate dataNascimento;
     @Column(nullable = false, unique = true)
     private String telefone;
    @Column(nullable = false)

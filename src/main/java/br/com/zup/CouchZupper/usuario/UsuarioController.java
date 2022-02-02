@@ -41,6 +41,7 @@ public class UsuarioController {
         for (Usuario usuario: usuarioService.buscarUsuarios(uf, localidade, genero, temPet, fumante, tipoDePet)){
             if (usuario.getPreferencia().isDisponivelParaReceberUmZupper()){
                 ResumoCadastroDTO resumo = modelMapper.map(usuario, ResumoCadastroDTO.class);
+                resumo.setIdade(usuarioService.calcularIdade(usuario.getDataNascimento()));
                 listaResumo.add(resumo);
             }
 

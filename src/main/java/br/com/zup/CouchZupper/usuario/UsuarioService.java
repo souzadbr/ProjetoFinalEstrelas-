@@ -7,15 +7,18 @@ import br.com.zup.CouchZupper.exception.EmailJaCadastradoException;
 import br.com.zup.CouchZupper.exception.EmailNaoZupException;
 import br.com.zup.CouchZupper.exception.TelefoneJaCadastradoException;
 import br.com.zup.CouchZupper.exception.UsuarioNaoLocalizadoException;
+import br.com.zup.CouchZupper.exception.MenorDeIdadeException;
 import br.com.zup.CouchZupper.usuario.dtos.UsuarioRequisicaoDTO;
 import br.com.zup.CouchZupper.viacep.Endereco;
 import br.com.zup.CouchZupper.viacep.EnderecoService;
+import br.com.zup.CouchZupper.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.util.Date;
+import java.time.LocalDate;
+import java.time.Period;
 import java.util.List;
 import java.util.Optional;
 
@@ -43,6 +46,9 @@ public class UsuarioService {
         }
         if(validarEmailZup(novoUsuario.getEmail())){
             throw new EmailNaoZupException();
+        }
+        if(calcularIdade(novoUsuario.getDataNascimento())<18){
+            throw new MenorDeIdadeException();
         }
         if (verificarTelefoneExistente(novoUsuario.getTelefone())) {
             throw new TelefoneJaCadastradoException();
@@ -146,6 +152,12 @@ public class UsuarioService {
             throw new EmailNaoZupException();
         }
         return false;
+    }
+
+    public int calcularIdade(LocalDate dataNascimento){
+        LocalDate dataAtual = LocalDate.now();
+        int idade = Period.between(dataNascimento, dataAtual).getYears();
+        return idade;
     }
 
 }
