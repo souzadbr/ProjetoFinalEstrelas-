@@ -82,5 +82,11 @@ public class ControllerAdvisor {
         return new MensagemDeErro("Menos de 18 anos não pode se cadastrar!");
     }
 
+    @ExceptionHandler(CepInvalidoException.class)
+    @ResponseStatus(HttpStatus.UNPROCESSABLE_ENTITY)
+    public MensagemDeErro manipularCepInvalido(CepInvalidoException exception){
+        return new MensagemDeErro("CEP inválido!");
+    }
+
 
 }
