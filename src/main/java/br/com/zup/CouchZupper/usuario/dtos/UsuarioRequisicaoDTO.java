@@ -27,8 +27,6 @@ public class UsuarioRequisicaoDTO {
     @NotNull(message = "{validacao.nome.not-null}")
     @NotBlank(message = "{validacao.nome.not-blank}")
     private String nome;
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "dd/MM/yyyy", locale = "pt-BR", timezone = "Brazil/East")
-    @JsonFormat(pattern = "yyyy/MM/dd")
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
     @JsonFormat(  shape = JsonFormat.Shape.STRING,pattern = "yyyy/MM/dd")
