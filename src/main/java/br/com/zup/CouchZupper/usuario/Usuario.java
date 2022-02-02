@@ -1,6 +1,5 @@
 package br.com.zup.CouchZupper.usuario;
 
-import br.com.zup.CouchZupper.enums.Estado;
 import br.com.zup.CouchZupper.enums.Genero;
 import lombok.AllArgsConstructor;
 import lombok.Getter;

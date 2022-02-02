@@ -1,6 +1,5 @@
 package br.com.zup.CouchZupper.usuario;
 
-import br.com.zup.CouchZupper.enums.Estado;
 import br.com.zup.CouchZupper.enums.Genero;
 import br.com.zup.CouchZupper.enums.TipoDePet;
 import org.springframework.data.repository.CrudRepository;
