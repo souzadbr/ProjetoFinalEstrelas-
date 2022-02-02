@@ -7,6 +7,7 @@ import br.com.zup.CouchZupper.exception.EmailJaCadastradoException;
 import br.com.zup.CouchZupper.exception.EmailNaoZupException;
 import br.com.zup.CouchZupper.exception.TelefoneJaCadastradoException;
 import br.com.zup.CouchZupper.exception.UsuarioNaoLocalizadoException;
+import br.com.zup.CouchZupper.exception.MenorDeIdadeException;
 import br.com.zup.CouchZupper.usuario.dtos.UsuarioRequisicaoDTO;
 import br.com.zup.CouchZupper.viacep.Endereco;
 import br.com.zup.CouchZupper.viacep.EnderecoService;
@@ -46,6 +47,9 @@ public class UsuarioService {
         if(validarEmailZup(novoUsuario.getEmail())){
             throw new EmailNaoZupException();
         }
+        if(calcularIdade(novoUsuario.getDataNascimento())<18){
+            throw new MenorDeIdadeException();
+        }
         if (verificarTelefoneExistente(novoUsuario.getTelefone())) {
             throw new TelefoneJaCadastradoException();
         } else {
@@ -55,11 +59,6 @@ public class UsuarioService {
             novoUsuario.setLocalidade(endereco.getLocalidade());
             return usuarioRepository.save(novoUsuario);
         }
-
-        if(calcularIdade(novoUsuario.getDataNascimento())<18){
-            throw new MenorDeIdadeException();
-        }
-        return usuarioRepository.save(novoUsuario);
 
     }
 
