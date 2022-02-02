@@ -225,4 +225,12 @@ public class UsuarioServiceTest {
 
     }
 
+    @Test
+    public void testarIdadeMinimaDeCadastro() throws Exception {
+        usuario.setDataNascimento(LocalDate.of(2020,02,01));
+
+        MenorDeIdadeException exception = Assertions.assertThrows(MenorDeIdadeException.class, () -> {
+            usuarioService.salvarUsuario(usuario);
+        });
+    }
 }
