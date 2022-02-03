@@ -52,6 +52,27 @@ public class UsuarioController {
         UsuarioRespostaDTO usuarioRespostaDTO = modelMapper.map(usuarioService.buscarUsuarioPorId(id), UsuarioRespostaDTO.class);
         return usuarioRespostaDTO;
     }
+    @GetMapping("/match/{uf}")
+    public List<ComparacaoUsuarioDTO> compararUsuarios (@PathVariable String uf) {
+        List<Usuario> usuariosFiltrados = usuarioService.listarUsuariosPorUf(uf);
+        List<ComparacaoUsuarioDTO> comparacaoUsuarioDTOList = new ArrayList<>();
+
+        for (Usuario usuarioReferencia : usuariosFiltrados ){
+            ComparacaoUsuarioDTO comparacaoUsuarioDTO = modelMapper.map(usuarioReferencia, ComparacaoUsuarioDTO.class);
+            double quantidadeCombinacoes = usuarioService.compararUsuarios(
+                    usuarioReferencia, usuarioService.buscarUsuarioLogado());
+            double porcentagemMatch = usuarioService.calcularPorcentagemCombinacoes(quantidadeCombinacoes);
+            double valorFormatado = Math.round(porcentagemMatch);
+
+            comparacaoUsuarioDTO.setPorcentagemMatch(valorFormatado);
+            if (usuarioReferencia != usuarioService.buscarUsuarioLogado()){
+                comparacaoUsuarioDTOList.add(comparacaoUsuarioDTO);
+            }
+
+        }
+        return comparacaoUsuarioDTOList;
+
+    }
 
     @PutMapping("/dados/{id}")
     public UsuarioAtualizarDadosDTO atualizarDadosUsuario(@PathVariable String id, @Valid
