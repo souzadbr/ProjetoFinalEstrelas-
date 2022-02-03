@@ -167,4 +167,8 @@ public class UsuarioService {
         return usuarioRepository.findAllByUf(uf);
     }
 
+    public Usuario buscarUsuarioLogado() {
+        return buscarUsuarioPorId(usuarioLogadoService.pegarId());
+    }
+
 }
