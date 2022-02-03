@@ -8,6 +8,7 @@ import br.com.zup.CouchZupper.exception.TelefoneJaCadastradoException;
 import br.com.zup.CouchZupper.exception.UsuarioNaoLocalizadoException;
 import br.com.zup.CouchZupper.exception.MenorDeIdadeException;
 import br.com.zup.CouchZupper.usuario.dtos.UsuarioRequisicaoDTO;
+import br.com.zup.CouchZupper.usuarioLogado.UsuarioLogadoService;
 import br.com.zup.CouchZupper.viacep.Endereco;
 import br.com.zup.CouchZupper.viacep.EnderecoService;
 import br.com.zup.CouchZupper.exception.*;
@@ -32,6 +33,9 @@ public class UsuarioService {
 
     @Autowired
     private EnderecoService enderecoService;
+
+    @Autowired
+    private UsuarioLogadoService usuarioLogadoService;
 
 
     public Usuario salvarUsuario(Usuario novoUsuario) throws Exception {
@@ -159,6 +163,35 @@ public class UsuarioService {
         LocalDate dataAtual = LocalDate.now();
         int idade = Period.between(dataNascimento, dataAtual).getYears();
         return idade;
+    }
+
+    public List<Usuario> listarUsuariosPorUf(String uf) {
+        return usuarioRepository.findAllByUf(uf);
+    }
+
+    public Usuario buscarUsuarioLogado() {
+        return buscarUsuarioPorId(usuarioLogadoService.pegarId());
+    }
+
+    public double compararUsuarios(Usuario usuarioLogado, Usuario usuariosComparado) {
+        double quantidadeCombinacoes = 0;
+
+        if (usuarioLogado.getPreferencia().isTemPet() == usuariosComparado.getPreferencia().isTemPet()) {
+            quantidadeCombinacoes++;
+        }
+        if (usuarioLogado.getPreferencia().isFumante() == usuariosComparado.getPreferencia().isFumante()) {
+            quantidadeCombinacoes++;
+        }
+        if (usuarioLogado.getPreferencia().getTipoDePet().equals(usuariosComparado.getPreferencia().getTipoDePet())) {
+            quantidadeCombinacoes++;
+        }
+        return quantidadeCombinacoes;
+    }
+
+    public double calcularPorcentagemCombinacoes(double quantidadeCombinacoes) {
+        int totalPreferencias = 3;
+        double porcentagemCombinacoes = (quantidadeCombinacoes / totalPreferencias) * 100;
+        return porcentagemCombinacoes;
     }
 
 }

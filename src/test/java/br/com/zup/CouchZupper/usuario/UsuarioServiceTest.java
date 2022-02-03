@@ -232,4 +232,12 @@ public class UsuarioServiceTest {
             usuarioService.salvarUsuario(usuario);
         });
     }
+
+    @Test
+    public void testarListarUsuarioPorUf(){
+        Mockito.when(usuarioRepository.findAllByUf(Mockito.anyString())).thenReturn(List.of(usuario));
+        usuarioService.listarUsuariosPorUf(usuario.getUf());
+
+        Mockito.verify(usuarioRepository, Mockito.times(1)).findAllByUf(Mockito.anyString());
+    }
 }
