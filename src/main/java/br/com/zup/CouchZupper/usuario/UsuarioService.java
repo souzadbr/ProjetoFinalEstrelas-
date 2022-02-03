@@ -171,4 +171,19 @@ public class UsuarioService {
         return buscarUsuarioPorId(usuarioLogadoService.pegarId());
     }
 
+    public double compararUsuarios(Usuario usuarioLogado, Usuario usuariosComparado) {
+        double quantidadeCombinacoes = 0;
+
+        if (usuarioLogado.getPreferencia().isTemPet() == usuariosComparado.getPreferencia().isTemPet()) {
+            quantidadeCombinacoes++;
+        }
+        if (usuarioLogado.getPreferencia().isFumante() == usuariosComparado.getPreferencia().isFumante()) {
+            quantidadeCombinacoes++;
+        }
+        if (usuarioLogado.getPreferencia().getTipoDePet().equals(usuariosComparado.getPreferencia().getTipoDePet())) {
+            quantidadeCombinacoes++;
+        }
+        return quantidadeCombinacoes;
+    }
+
 }
