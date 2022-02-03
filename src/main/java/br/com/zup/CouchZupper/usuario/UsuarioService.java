@@ -53,7 +53,9 @@ public class UsuarioService {
             throw new TelefoneJaCadastradoException();
         } else {
             Endereco endereco = enderecoService.buscarEnderecoPorCep(novoUsuario.getCep());
-
+            if(endereco.getErro()){
+                throw new CepInvalidoException();
+            }
             novoUsuario.setUf(endereco.getUf());
             novoUsuario.setLocalidade(endereco.getLocalidade());
             return usuarioRepository.save(novoUsuario);

@@ -7,4 +7,5 @@ public class Endereco {
     private String cep;
     private String localidade;
     private String uf;
+    private Boolean erro = false;
 }
