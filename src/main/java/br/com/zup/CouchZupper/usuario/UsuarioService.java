@@ -186,4 +186,10 @@ public class UsuarioService {
         return quantidadeCombinacoes;
     }
 
+    public double calcularPorcentagemCombinacoes(double quantidadeCombinacoes) {
+        int totalPreferencias = 3;
+        double porcentagemCombinacoes = (quantidadeCombinacoes / totalPreferencias) * 100;
+        return porcentagemCombinacoes;
+    }
+
 }
