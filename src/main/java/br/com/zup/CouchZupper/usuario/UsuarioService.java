@@ -115,6 +115,7 @@ public class UsuarioService {
 
         Endereco endereco = enderecoService.buscarEnderecoPorCep(usuario.getCep());
 
+        System.out.println(endereco);
         usuarioAAtualizar.setNome(usuario.getNome());
         usuarioAAtualizar.setTelefone(usuario.getTelefone());
         usuarioAAtualizar.setUf(endereco.getUf());
