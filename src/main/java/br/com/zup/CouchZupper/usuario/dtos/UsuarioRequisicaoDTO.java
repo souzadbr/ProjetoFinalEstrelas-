@@ -21,6 +21,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class UsuarioRequisicaoDTO {
+    @Email(message = "{validacao.email.email}")
+    @NotNull(message = "{validacao.nome.not-null}")
     private String email;
     @Size(min = 2, max = 50, message = "{validacao.nome.size}")
     @NotNull(message = "{validacao.nome.not-null}")

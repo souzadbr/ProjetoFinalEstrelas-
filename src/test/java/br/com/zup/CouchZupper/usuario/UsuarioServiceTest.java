@@ -4,6 +4,9 @@ import br.com.zup.CouchZupper.enums.Genero;
 import br.com.zup.CouchZupper.enums.TipoDePet;
 import br.com.zup.CouchZupper.exception.*;
 import br.com.zup.CouchZupper.preferencia.Preferencia;
+import br.com.zup.CouchZupper.viacep.Endereco;
+import br.com.zup.CouchZupper.viacep.EnderecoService;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
 import org.assertj.core.util.Arrays;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
@@ -29,6 +32,8 @@ import static org.mockito.ArgumentMatchers.*;
 public class UsuarioServiceTest {
     @MockBean
     private UsuarioRepository usuarioRepository;
+    @MockBean
+    private EnderecoService enderecoService;
 
     @Autowired
     private UsuarioService usuarioService;
@@ -37,17 +42,27 @@ public class UsuarioServiceTest {
 
     private Usuario usuario, usuarioAAtualizar;
     private Preferencia preferencia;
+    private Endereco endereco;
 
     @BeforeEach
     public void setup() {
+
+
+        endereco = new Endereco();
+        endereco.setUf("SP");
+        endereco.setLocalidade("São Paulo");
+        endereco.setCep("03240070");
+        endereco.setErro(false);
+
         usuario = new Usuario();
         usuario.setId("000aaa");
         usuario.setNome("Usuario Teste");
         usuario.setEmail("usuario@zup.com.br");
         usuario.setDataNascimento(LocalDate.of(2000, 3, 7));
         usuario.setTelefone("79999999999");
-        //usuario.setEstado(Estado.SERGIPE);
-        usuario.setUf("SE");
+        usuario.setCep("03240070");
+        usuario.setLocalidade(endereco.getLocalidade());
+        usuario.setUf(endereco.getUf());
         usuario.setGenero(Genero.OUTRO);
         usuario.setSenha("senhateste");
 
@@ -59,9 +74,11 @@ public class UsuarioServiceTest {
         preferencia.setDisponivelParaReceberUmZupper(true);
         preferencia.setConteAlgoQueNaoPerguntamos("Teste");
 
+
         usuario.setPreferencia(preferencia);
 
-        usuarioAAtualizar = new Usuario();
+        usuarioAAtualizar = usuario;
+
     }
 
     @Test
@@ -83,9 +100,14 @@ public class UsuarioServiceTest {
 
     @Test
     public void testarSalvarUsuarioCaminhoPositivo() throws Exception {
+
         Mockito.when(usuarioRepository.save(Mockito.any(Usuario.class))).thenReturn(usuario);
         Mockito.when(usuarioService.verificarEmailExistente(Mockito.anyString())).thenReturn(false);
         Mockito.when(usuarioService.verificarTelefoneExistente(Mockito.anyString())).thenReturn(false);
+        Mockito.when(enderecoService.buscarEnderecoPorCep("03240070")).thenReturn(endereco);
+        endereco =  enderecoService.buscarEnderecoPorCep(usuario.getCep());
+        usuario.setLocalidade(endereco.getLocalidade());
+        usuario.setUf(endereco.getUf());
 
         usuarioService.salvarUsuario(usuario);
         Mockito.verify(usuarioRepository, Mockito.times(1)).save(Mockito.any(Usuario.class));
@@ -135,12 +157,14 @@ public class UsuarioServiceTest {
     public void testarAtualizarDadosUsuarioCaminhoPositivo() {
         Mockito.when(usuarioRepository.findById(Mockito.anyString())).thenReturn(Optional.of(usuario));
         Mockito.when(usuarioRepository.save(Mockito.any(Usuario.class))).thenReturn(usuario);
-        usuarioService.atualizarDadosUsuario(Mockito.anyString(), usuarioAAtualizar);
+        Mockito.when(enderecoService.buscarEnderecoPorCep(Mockito.anyString())).thenReturn(endereco) ;
+        Usuario usuarioAtualizado = usuarioService.atualizarDadosUsuario("000aaa", usuarioAAtualizar);
 
-        Assertions.assertEquals(usuario.getNome(), usuarioAAtualizar.getNome());
-        Assertions.assertEquals(usuario.getTelefone(), usuarioAAtualizar.getTelefone());
-       // Assertions.assertEquals(usuario.getEstado(), usuarioAAtualizar.getEstado());
-        Assertions.assertEquals(usuario.getGenero(), usuarioAAtualizar.getGenero());
+        Assertions.assertEquals(usuarioAtualizado.getNome(), usuarioAAtualizar.getNome());
+        Assertions.assertEquals(usuarioAtualizado.getTelefone(), usuarioAAtualizar.getTelefone());
+        Assertions.assertEquals(usuarioAtualizado.getLocalidade(), usuarioAAtualizar.getLocalidade());
+        Assertions.assertEquals(usuarioAtualizado.getUf(), usuarioAAtualizar.getUf());
+        Assertions.assertEquals(usuarioAtualizado.getGenero(), usuarioAAtualizar.getGenero());
 
         Mockito.verify(usuarioRepository, Mockito.times(1)).save(Mockito.any(Usuario.class));
 
