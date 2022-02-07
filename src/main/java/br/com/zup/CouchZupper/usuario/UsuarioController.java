@@ -77,9 +77,9 @@ public class UsuarioController {
     @PutMapping("/dados/{id}")
     public UsuarioAtualizarDadosDTO atualizarDadosUsuario(@PathVariable String id, @Valid
 
-                                                          @RequestBody UsuarioRequisicaoDTO usuarioRequisicaoDTO){
+                                                          @RequestBody UsuarioRequisicaoAtualizarDadosDTO usuarioRequisicaoAtualizarDadosDTO){
         UsuarioAtualizarDadosDTO usuarioAtualizarDadosDTO;
-        Usuario usuario = modelMapper.map(usuarioRequisicaoDTO, Usuario.class);
+        Usuario usuario = modelMapper.map(usuarioRequisicaoAtualizarDadosDTO, Usuario.class);
         Usuario usuarioAtualizar = usuarioService.atualizarDadosUsuario(id, usuario);
         usuarioAtualizarDadosDTO = modelMapper.map(usuarioAtualizar, UsuarioAtualizarDadosDTO.class);
 
