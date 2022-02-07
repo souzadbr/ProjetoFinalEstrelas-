@@ -29,7 +29,7 @@ public class PreferenciaService {
 
         preferenciaAtualizar.setTemPet(preferencia.isTemPet());
         preferenciaAtualizar.setTipoDePet(preferencia.getTipoDePet());
-        preferenciaAtualizar.setFumante(preferenciaAtualizar.isFumante());
+        preferenciaAtualizar.setFumante(preferencia.isFumante());
         preferenciaAtualizar.setDisponivelParaReceberUmZupper(preferencia.isDisponivelParaReceberUmZupper());
         preferenciaAtualizar.setConteAlgoQueNaoPerguntamos(preferencia.getConteAlgoQueNaoPerguntamos());
 
