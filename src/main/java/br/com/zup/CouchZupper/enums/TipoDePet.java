@@ -5,6 +5,7 @@ public enum TipoDePet {
     GATO,
     PASSAROS,
     ANIMAIS_SILVESTRES,
-    OUTRO
+    OUTRO,
+    NENHUM
 
 }
