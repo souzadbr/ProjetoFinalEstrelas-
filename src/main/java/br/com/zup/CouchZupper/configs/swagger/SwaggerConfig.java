@@ -48,9 +48,7 @@ public class SwaggerConfig {
     private ApiInfo apiInfo() {
         return new ApiInfo(
                 "Couch Zupper",
-                "API focada em encontrar hospedagem de Zuppers para Zuppers " +
-                        "(seguindo o modelo \" CouchSurfing \": hospedagem gratuita, a ideia" +
-                        " é intermediar a troca cultural entre pessoas ) ",
+                "API focada em encontrar hospedagem de Zuppers para Zuppers ",
                 "1.0",
                 "Terms of service",
                 new Contact("Aretuza, Debora, Vanessa", "https://github.com/souzadbr/ProjetoFinalEstrelas-",
