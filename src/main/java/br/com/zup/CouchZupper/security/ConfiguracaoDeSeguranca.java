@@ -38,6 +38,9 @@ public class ConfiguracaoDeSeguranca extends WebSecurityConfigurerAdapter {
 
         httpSecurity.authorizeRequests()
                 .antMatchers(HttpMethod.POST, ENDPOINT_POST_PUBLICO).permitAll()
+                .antMatchers(  "/swagger-ui.html", "/v3/api-docs/**", "/swagger-ui/**").permitAll()
+                .and()
+                .authorizeRequests()
                 .anyRequest().authenticated();
         httpSecurity.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 
