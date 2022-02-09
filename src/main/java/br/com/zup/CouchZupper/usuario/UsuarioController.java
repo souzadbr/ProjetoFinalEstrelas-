@@ -49,7 +49,10 @@ public class UsuarioController {
     }
     @GetMapping("/{id}")
     public UsuarioRespostaDTO exibirUsuarioPorId(@PathVariable String id){
-        UsuarioRespostaDTO usuarioRespostaDTO = modelMapper.map(usuarioService.buscarUsuarioPorId(id), UsuarioRespostaDTO.class);
+        Usuario usuario = usuarioService.buscarUsuarioPorId(id);
+        UsuarioRespostaDTO usuarioRespostaDTO = modelMapper.map(usuario, UsuarioRespostaDTO.class);
+        usuarioRespostaDTO.setIdade(usuarioService.calcularIdade(usuario.getDataNascimento()));
+
         return usuarioRespostaDTO;
     }
     @GetMapping("/match/{uf}")

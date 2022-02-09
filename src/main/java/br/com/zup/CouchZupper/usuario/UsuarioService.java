@@ -106,6 +106,7 @@ public class UsuarioService {
     public Usuario buscarUsuarioPorId(String id) {
         Optional<Usuario> usuarioOptional = usuarioRepository.findById(id);
 
+
         if (usuarioOptional.isEmpty()){
             throw new UsuarioNaoLocalizadoException();
         }
@@ -120,6 +121,8 @@ public class UsuarioService {
         Endereco endereco = enderecoService.buscarEnderecoPorCep(usuario.getCep());
 
         usuarioAAtualizar.setNome(usuario.getNome());
+        usuarioAAtualizar.setDataNascimento(usuario.getDataNascimento());
+        usuarioAAtualizar.setCep(usuario.getCep());
         usuarioAAtualizar.setTelefone(usuario.getTelefone());
         usuarioAAtualizar.setUf(endereco.getUf());
         usuarioAAtualizar.setLocalidade(endereco.getLocalidade());
