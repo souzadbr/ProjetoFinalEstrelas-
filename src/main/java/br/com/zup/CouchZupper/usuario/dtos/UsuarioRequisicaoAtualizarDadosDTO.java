@@ -28,7 +28,6 @@ public class UsuarioRequisicaoAtualizarDadosDTO {
     private String nome;
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
     private LocalDate dataNascimento;
     @NotNull(message = "{validacao.telefone.not-null}")
     @NotBlank(message = "{validacao.telefone.not-blank}")

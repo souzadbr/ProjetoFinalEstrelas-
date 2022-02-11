@@ -24,7 +24,6 @@ public class UsuarioAtualizarDadosDTO {
     private String nome;
     @JsonDeserialize(using = LocalDateDeserializer.class)
     @JsonSerialize(using = LocalDateSerializer.class)
-    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy/MM/dd")
     private LocalDate dataNascimento;
     @Size(min = 8, max = 8, message = "{validacao.cep.size}")
     private String cep;
