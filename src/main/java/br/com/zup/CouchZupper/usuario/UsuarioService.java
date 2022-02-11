@@ -7,13 +7,11 @@ import br.com.zup.CouchZupper.exception.EmailNaoZupException;
 import br.com.zup.CouchZupper.exception.TelefoneJaCadastradoException;
 import br.com.zup.CouchZupper.exception.UsuarioNaoLocalizadoException;
 import br.com.zup.CouchZupper.exception.MenorDeIdadeException;
-import br.com.zup.CouchZupper.usuario.dtos.UsuarioRequisicaoDTO;
 import br.com.zup.CouchZupper.usuarioLogado.UsuarioLogadoService;
 import br.com.zup.CouchZupper.viacep.Endereco;
 import br.com.zup.CouchZupper.viacep.EnderecoService;
 import br.com.zup.CouchZupper.exception.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 

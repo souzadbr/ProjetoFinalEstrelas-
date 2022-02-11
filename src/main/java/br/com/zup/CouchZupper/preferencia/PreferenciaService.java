@@ -1,12 +1,12 @@
 package br.com.zup.CouchZupper.preferencia;
 
-import br.com.zup.CouchZupper.enums.TipoDePet;
+
 import br.com.zup.CouchZupper.exception.PreferenciaNaoLocalizadaException;
-import br.com.zup.CouchZupper.usuario.Usuario;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+
 import java.util.Optional;
 
 @Service
