@@ -1,8 +1,6 @@
 package br.com.zup.CouchZupper.usuario.dtos;
 
 import br.com.zup.CouchZupper.enums.Genero;
-import br.com.zup.CouchZupper.preferencia.Preferencia;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.datatype.jsr310.deser.LocalDateDeserializer;
