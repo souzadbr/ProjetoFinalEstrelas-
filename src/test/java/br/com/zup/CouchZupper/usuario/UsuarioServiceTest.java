@@ -6,13 +6,10 @@ import br.com.zup.CouchZupper.exception.*;
 import br.com.zup.CouchZupper.preferencia.Preferencia;
 import br.com.zup.CouchZupper.viacep.Endereco;
 import br.com.zup.CouchZupper.viacep.EnderecoService;
-import com.fasterxml.jackson.annotation.JsonTypeInfo;
-import org.assertj.core.util.Arrays;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -20,13 +17,9 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
-import java.time.Period;
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Optional;
 
-import static org.mockito.ArgumentMatchers.*;
 
 @SpringBootTest
 public class UsuarioServiceTest {
@@ -191,7 +184,6 @@ public class UsuarioServiceTest {
         usuarioService.atualizarDadosLoginUsuario(Mockito.anyString(), usuarioAAtualizar);
 
         Assertions.assertEquals(usuario.getEmail(), usuarioAAtualizar.getEmail());
-        //Assertions.assertEquals(usuario.getSenha(), usuarioAAtualizar.getSenha());
 
         Mockito.verify(usuarioRepository, Mockito.times(1)).save(Mockito.any(Usuario.class));
 
